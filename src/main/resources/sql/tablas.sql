@@ -1,4 +1,4 @@
-drop table if exists Usuario;
+drop table if exists Usuario cascade;
 create table Usuario (
 		idUsuario serial primary key,
 		nombre varchar(30),
@@ -18,3 +18,13 @@ create table Evento (
 	hora time,
 	estaCancelado bool default FALSE
 );
+drop table if exists MetodoPago;
+drop type if exists multinacional;
+create type multinacional as enum ('visa','mastercard');
+create table MetodoPago (
+	idMetodoPago serial primary key,
+	idUsuario integer references Usuario(idUsuario) on delete cascade,
+	cuenta integer unique,
+	fechaVencimiento date,
+	tipoCuenta multinacional
+)
