@@ -1,4 +1,7 @@
 drop table if exists Usuario cascade;
+drop table if exists MetodoPago;
+drop table if exists Evento;
+drop type if exists multinacional;
 create table Usuario (
 		idUsuario serial primary key,
 		nombre varchar(30),
@@ -9,7 +12,7 @@ create table Usuario (
 		esAdmin bool,
 		estaBaneado bool default FALSE
 );
-drop table if exists Evento;
+
 create table Evento (
 	idEvento serial primary key,
 	nombre varchar(30),
@@ -18,8 +21,6 @@ create table Evento (
 	hora time,
 	estaCancelado bool default FALSE
 );
-drop table if exists MetodoPago;
-drop type if exists multinacional;
 create type multinacional as enum ('visa','mastercard');
 create table MetodoPago (
 	idMetodoPago serial primary key,
