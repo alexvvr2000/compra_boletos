@@ -1,5 +1,5 @@
 drop table if exists Usuario cascade;
-drop table if exists MetodoPago;
+drop table if exists MetodoPago cascade;
 drop table if exists Evento cascade;
 drop table if exists capacidad;
 drop table if exists compras;
@@ -43,6 +43,6 @@ create table compras (
 	idCompras serial primary key,
 	idUsuario integer references Usuario(idUsuario) on delete cascade,
 	idEvento integer references Evento(idEvento) on delete cascade,
-	idMetodoPago integer references MetodoPago(idMetodoPago),
+	idMetodoPago integer references MetodoPago(idMetodoPago) on delete cascade,
 	asientosComprados varchar(10)[]
 );
