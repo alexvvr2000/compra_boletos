@@ -1,7 +1,8 @@
 drop table if exists Usuario cascade;
 drop table if exists MetodoPago;
-drop table if exists Evento;
+drop table if exists Evento cascade;
 drop type if exists multinacional;
+drop table if exists capacidad;
 create table Usuario (
 		idUsuario serial primary key,
 		nombre varchar(30),
@@ -28,4 +29,12 @@ create table MetodoPago (
 	cuenta integer unique,
 	fechaVencimiento date,
 	tipoCuenta multinacional
-)
+);
+create table capacidad (
+	idEvento integer primary key references Evento(idEvento) on delete cascade,
+	filaA json,
+	filaB json,
+	filaC json,
+	filaD json,
+	precioAsiento money
+);
