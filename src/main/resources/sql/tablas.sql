@@ -11,7 +11,7 @@ create table Usuario (
 		apellidoMaterno varchar(30),
 		correo varchar(30),
 		claveInicioSesion varchar(30),
-		esAdmin bool,
+		esAdmin bool default FALSE,
 		estaBaneado bool default FALSE
 );
 
