@@ -1,4 +1,4 @@
 package com.megaboletos.usuarios;
 
-public class Cliente {
+public class AdministradorBuilder {
 }
