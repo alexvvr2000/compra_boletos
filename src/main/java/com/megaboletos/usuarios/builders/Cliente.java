@@ -2,6 +2,17 @@ package com.megaboletos.usuarios.builders;
 import com.megaboletos.usuarios.PermisoUsuario;
 import java.sql.Connection;
 public class Cliente extends Usuario implements PermisoUsuario {
+    private Cliente(Builder instancia){
+        super(instancia.conexion);
+        this.nombre = instancia.nombre;
+        this.apellidoPaterno = instancia.apellidoPaterno;
+        this.apellidoMaterno = instancia.apellidoMaterno;
+        this.correo = instancia.correo;
+        this.conexionBase = instancia.conexion;
+    }
+    public Cliente(Connection connection, String correo, String claveAcceso) {
+        super(connection, correo, claveAcceso);
+    }
     public boolean modificarMetodoPago(int idMetodoPago) {
         return false;
     }
@@ -40,16 +51,5 @@ public class Cliente extends Usuario implements PermisoUsuario {
         public Cliente crear(String claveAcceso) {
             return new Cliente(this);
         }
-    }
-    private Cliente(Builder instancia){
-        super(instancia.conexion);
-        this.nombre = instancia.nombre;
-        this.apellidoPaterno = instancia.apellidoPaterno;
-        this.apellidoMaterno = instancia.apellidoMaterno;
-        this.correo = instancia.correo;
-        this.conexionBase = instancia.conexion;
-    }
-    public Cliente(Connection connection, String correo, String claveAcceso) {
-        super(connection, correo, claveAcceso);
     }
 }
