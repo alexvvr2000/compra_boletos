@@ -1,4 +1,5 @@
 package com.megaboletos.usuarios.builders;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Currency;
@@ -6,7 +7,7 @@ public class Compra {
     private final int idCliente;
     private final int idEvento;
     private final int idCompra;
-    private final Currency precioFinal;
+    private final int precioFinal;
     private final Connection conexion;
     final ArrayList<String> asientos = new ArrayList<String>();
     public Compra(Connection conexion,int idCompra) {
@@ -25,8 +26,8 @@ public class Compra {
     public int getIdCompra() {
         return this.idCompra;
     }
-    public Currency getPrecioFinal() {
-        return precioFinal;
+    public int getPrecioFinal() {
+        return this.precioFinal;
     }
     public ArrayList<String> getAsientos() {
         return this.asientos;
@@ -51,7 +52,8 @@ public class Compra {
         private boolean pagarAsientos() {
             return true;
         }
-        private Currency calcularPrecioFinal(){
+        private int calcularPrecioFinal(){
+            return 0;
         }
     }
 }
