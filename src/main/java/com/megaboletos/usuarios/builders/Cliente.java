@@ -13,12 +13,6 @@ public class Cliente extends Usuario implements PermisoUsuario {
     public Cliente(Connection connection, String correo, String claveAcceso) {
         super(connection, correo, claveAcceso);
     }
-    public boolean modificarMetodoPago(int idMetodoPago) {
-        return false;
-    }
-    public boolean eliminarMetodoPago(int idMetodoPago) {
-        return false;
-    }
     @Override
     public PermisoUsuario.Permiso obtenerPermisosUsuario() {
         return Permiso.CLIENTE;
@@ -47,5 +41,11 @@ public class Cliente extends Usuario implements PermisoUsuario {
         public Cliente crear(String claveAcceso) {
             return new Cliente(this);
         }
+    }
+    public boolean modificarMetodoPago(int idMetodoPago) {
+        return false;
+    }
+    public boolean eliminarMetodoPago(int idMetodoPago) {
+        return false;
     }
 }
