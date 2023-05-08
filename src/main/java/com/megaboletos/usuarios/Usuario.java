@@ -9,6 +9,7 @@ class Usuario {
     private Connection conexionBase;
     private boolean estaBaneado = false;
     private boolean estaEliminado = false;
+    private boolean sesionCerrada = false;
     Usuario (Connection conexion, String correo, String claveAcceso) {}
     public boolean sincronizarConBase() {
         return true;
@@ -17,6 +18,9 @@ class Usuario {
         return false;
     }
     public boolean bajaCuenta() {
+        return false;
+    }
+    public boolean cerrarSesion() {
         return false;
     }
     public String getNombre() {
