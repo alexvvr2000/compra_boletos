@@ -7,6 +7,12 @@ public class Evento {
     private String lugar;
     private Date fecha;
     private LocalTime hora;
+    private Evento(Builder instancia) {
+        this.nombre = instancia.nombre;
+        this.lugar = instancia.lugar;
+        this.fecha = instancia.fecha;
+        this.hora = instancia.hora;
+    }
     public String getNombre() {
         return nombre;
     }
@@ -39,11 +45,5 @@ public class Evento {
         public Evento crear(PermisoUsuario usuario) {
             return new Evento(this);
         }
-    }
-    private Evento(Builder instancia) {
-        this.nombre = instancia.nombre;
-        this.lugar = instancia.lugar;
-        this.fecha = instancia.fecha;
-        this.hora = instancia.hora;
     }
 }
