@@ -17,22 +17,27 @@ public class Cliente extends Usuario implements PermisoUsuario {
         private String apellidoMaterno;
         private String correo;
         private Connection conexion;
-        public void setNombre(String nombre) {
+        public Builder setNombre(String nombre) {
             this.nombre = nombre;
+            return this;
         }
-        public void setApellidoPaterno(String apellidoPaterno) {
+        public Builder setApellidoPaterno(String apellidoPaterno) {
             this.apellidoPaterno = apellidoPaterno;
+            return this;
         }
-        public void setApellidoMaterno(String apellidoMaterno) {
+        public Builder setApellidoMaterno(String apellidoMaterno) {
             this.apellidoMaterno = apellidoMaterno;
+            return this;
         }
-        public void setCorreo(String correo) {
+        public Builder setCorreo(String correo) {
             this.correo = correo;
+            return this;
         }
-        public void setConexion(Connection conexion) {
+        public Builder setConexion(Connection conexion) {
             this.conexion = conexion;
+            return this;
         }
-        public Cliente crear(PermisoUsuario usuario) {
+        public Cliente crear(String claveAcceso) {
             return new Cliente(this);
         }
     }
@@ -42,5 +47,9 @@ public class Cliente extends Usuario implements PermisoUsuario {
         this.apellidoPaterno = instancia.apellidoPaterno;
         this.apellidoMaterno = instancia.apellidoMaterno;
         this.correo = instancia.correo;
+        this.conexionBase = instancia.conexion;
+    }
+    public Cliente(Connection connection, String correo, String claveAcceso) {
+        super(connection, correo, claveAcceso);
     }
 }
