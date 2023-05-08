@@ -2,7 +2,7 @@ package com.megaboletos.usuarios.builders;
 import com.megaboletos.usuarios.PermisoUsuario;
 import java.sql.Connection;
 public class Cliente extends Usuario implements PermisoUsuario {
-    private Cliente(Builder instancia){
+    private Cliente(final Builder instancia){
         super(instancia.conexion);
         this.nombre = instancia.nombre;
         this.apellidoPaterno = instancia.apellidoPaterno;
@@ -28,25 +28,20 @@ public class Cliente extends Usuario implements PermisoUsuario {
         private String apellidoMaterno;
         private String correo;
         private Connection conexion;
-        public Builder setNombre(String nombre) {
+        public void setNombre(String nombre) {
             this.nombre = nombre;
-            return this;
         }
-        public Builder setApellidoPaterno(String apellidoPaterno) {
+        public void setApellidoPaterno(String apellidoPaterno) {
             this.apellidoPaterno = apellidoPaterno;
-            return this;
         }
-        public Builder setApellidoMaterno(String apellidoMaterno) {
+        public void setApellidoMaterno(String apellidoMaterno) {
             this.apellidoMaterno = apellidoMaterno;
-            return this;
         }
-        public Builder setCorreo(String correo) {
+        public void setCorreo(String correo) {
             this.correo = correo;
-            return this;
         }
-        public Builder setConexion(Connection conexion) {
+        public void setConexion(Connection conexion) {
             this.conexion = conexion;
-            return this;
         }
         public Cliente crear(String claveAcceso) {
             return new Cliente(this);
