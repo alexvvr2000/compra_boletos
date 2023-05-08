@@ -19,6 +19,7 @@ public class Cliente extends Usuario implements PermisoUsuario {
     public boolean eliminarMetodoPago(int idMetodoPago) {
         return false;
     }
+    @Override
     public PermisoUsuario.Permiso obtenerPermisosUsuario() {
         return Permiso.CLIENTE;
     }
