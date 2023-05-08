@@ -1,32 +1,34 @@
 package com.megaboletos.usuarios;
-
-public class Usuario {
+import java.sql.Connection;
+import org.json.JSONObject;
+class Usuario {
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
     private String correo;
+    private Connection conexionBase;
+    private boolean estaBaneado = false;
+    private boolean estaEliminado = false;
+    Usuario (Connection conexion, String correo, String claveAcceso) {}
+    public boolean sincronizarConBase() {
+        return true;
+    }
+    public boolean actualizarDatos(JSONObject datos) {
+        return false;
+    }
+    public boolean bajaCuenta() {
+        return false;
+    }
     public String getNombre() {
         return nombre;
-    }
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
     public String getApellidoPaterno() {
         return apellidoPaterno;
     }
-    public void setApellidoPaterno(String apellidoPaterno) {
-        this.apellidoPaterno = apellidoPaterno;
-    }
     public String getApellidoMaterno() {
         return apellidoMaterno;
     }
-    public void setApellidoMaterno(String apellidoMaterno) {
-        this.apellidoMaterno = apellidoMaterno;
-    }
     public String getCorreo() {
         return correo;
-    }
-    public void setCorreo(String correo) {
-        this.correo = correo;
     }
 }
