@@ -45,7 +45,7 @@ public class Compra {
             this.idEvento = idEvento;
             return this;
         }
-        public Compra comprar() {
+        public Compra comprar(MetodoPago metodoPago) {
             return new Compra(this.clientePorComprar, this);
         }
         private boolean pagarAsientos() {
