@@ -1,5 +1,5 @@
 package com.megaboletos.usuarios.builders;
 
-public interface MetodosPago {
+public interface MetodoPago {
     boolean pagar();
 }
