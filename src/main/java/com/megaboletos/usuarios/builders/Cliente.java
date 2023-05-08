@@ -1,7 +1,6 @@
 package com.megaboletos.usuarios.builders;
-import com.megaboletos.usuarios.PermisoUsuario;
 import java.sql.Connection;
-public class Cliente extends Usuario implements PermisoUsuario {
+public class Cliente extends Usuario{
     private Cliente(final Builder instancia){
         super(instancia.conexion);
         this.nombre = instancia.nombre;
@@ -12,10 +11,6 @@ public class Cliente extends Usuario implements PermisoUsuario {
     }
     public Cliente(Connection connection, String correo, String claveAcceso) {
         super(connection, correo, claveAcceso);
-    }
-    @Override
-    public PermisoUsuario.Permiso obtenerPermisosUsuario() {
-        return Permiso.CLIENTE;
     }
     public static class Builder {
         private String nombre;
