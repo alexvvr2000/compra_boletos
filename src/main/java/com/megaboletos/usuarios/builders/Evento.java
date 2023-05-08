@@ -1,6 +1,5 @@
 package com.megaboletos.usuarios.builders;
 import com.megaboletos.usuarios.PermisoUsuario;
-
 import java.sql.Connection;
 import java.time.LocalTime;
 import java.util.Date;
@@ -10,15 +9,18 @@ public class Evento {
     final private Date fecha;
     final private LocalTime hora;
     final private Connection conexion;
+    private PermisoUsuario.Permiso permisoUsuario;
     private Evento(Builder instancia) {
         this.nombre = instancia.nombre;
         this.lugar = instancia.lugar;
         this.fecha = instancia.fecha;
         this.hora = instancia.hora;
         this.conexion = instancia.conexion;
+        this.permisoUsuario = instancia.permisoUsuario;
     }
-    public Evento(Connection conexion, int idEvento){
+    public Evento(PermisoUsuario permisoUsuario,Connection conexion,int idEvento){
         this.conexion = conexion;
+        this.permisoUsuario = permisoUsuario.obtenerPermisosUsuario();
     }
     public String getNombre() {
         return nombre;
@@ -38,7 +40,9 @@ public class Evento {
         private Date fecha;
         private LocalTime hora;
         private Connection conexion;
+        private PermisoUsuario.Permiso permisoUsuario;
         public Builder(PermisoUsuario permisoUsuario) {
+            this.permisoUsuario = permisoUsuario.obtenerPermisosUsuario()
         }
         public void setNombre(String nombre) {
             this.nombre = nombre;
