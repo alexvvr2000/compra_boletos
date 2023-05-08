@@ -13,6 +13,7 @@ public class Pago implements agregarCVV{
 
     @Override
     public MetodoPago agregarCVV(int CVV) {
+        return new Visa();
     }
 }
 class Visa implements MetodoPago {
