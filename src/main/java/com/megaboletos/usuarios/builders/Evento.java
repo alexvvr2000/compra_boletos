@@ -13,6 +13,8 @@ public class Evento {
         this.fecha = instancia.fecha;
         this.hora = instancia.hora;
     }
+    public Evento(int idEvento){
+    }
     public String getNombre() {
         return nombre;
     }
