@@ -11,16 +11,22 @@ public class Compra {
     Compra(int idCompra) {
         this.idCompra = idCompra;
     }
-    public int getIdEvento() {
-        return idEvento;
+    public int getIdCliente() {
+        return this.idCliente;
     }
-    public ArrayList<String> getAsientos() {
-        return asientos;
+    public int getIdEvento() {
+        return this.idEvento;
+    }
+    public int getIdCompra() {
+        return this.idCompra;
     }
     public Currency getPrecioFinal() {
         return precioFinal;
     }
-    public boolean pagar(int CVV){
+    public ArrayList<String> getAsientos() {
+        return this.asientos;
+    }
+    public boolean pagar(int CVV, Cliente cliente){
         return true;
     }
 }
