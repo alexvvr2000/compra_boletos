@@ -41,10 +41,8 @@ public class Compra {
         public Builder(Cliente clientePorComprar) {
             this.clientePorComprar = clientePorComprar;
         }
-        public Builder agregarEvento() {
-            return this;
-        }
-        public Builder agregarAsientos(ArrayList<String> asientos){
+        public Builder agregarEvento(int idEvento, ArrayList<String> asientos) {
+            this.idEvento = idEvento;
             return this;
         }
         public Compra comprar() {
