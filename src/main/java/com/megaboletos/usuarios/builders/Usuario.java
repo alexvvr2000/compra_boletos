@@ -2,15 +2,16 @@ package com.megaboletos.usuarios.builders;
 import java.sql.Connection;
 import org.json.JSONObject;
 class Usuario {
-    private String nombre;
-    private String apellidoPaterno;
-    private String apellidoMaterno;
-    private String correo;
-    private Connection conexionBase;
-    private boolean estaBaneado = false;
-    private boolean estaEliminado = false;
-    private boolean sesionCerrada = false;
+    String nombre;
+    String apellidoPaterno;
+    String apellidoMaterno;
+    String correo;
+    Connection conexionBase;
+    boolean estaBaneado = false;
+    boolean estaEliminado = false;
+    boolean sesionCerrada = false;
     Usuario (Connection conexion, String correo, String claveAcceso) {}
+    Usuario (Connection conexion) {}
     public boolean sincronizarConBase() {
         return true;
     }
