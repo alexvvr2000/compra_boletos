@@ -1,8 +1,18 @@
 package com.megaboletos.usuarios.builders;
 import java.sql.Connection;
-public class Pago {
-    Pago(Connection conexion, Compra compraRealizable, int CVV) {
+interface agregarCVV {
+    MetodoPago agregarCVV(int CVV);
+}
+public class Pago implements agregarCVV{
+    private Connection conexion;
+    private Compra compraRealizable;
+    Pago(Connection conexion, Compra compraRealizable) {
+        this.conexion = conexion;
+        this.compraRealizable = compraRealizable;
+    }
 
+    @Override
+    public MetodoPago agregarCVV(int CVV) {
     }
 }
 class Visa implements MetodoPago {
