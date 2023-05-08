@@ -9,7 +9,7 @@ public class Evento {
     final private Date fecha;
     final private LocalTime hora;
     final private Connection conexion;
-    private PermisoUsuario.Permiso permisoUsuario;
+    private final PermisoUsuario.Permiso permisoUsuario;
     private Evento(Builder instancia) {
         this.nombre = instancia.nombre;
         this.lugar = instancia.lugar;
