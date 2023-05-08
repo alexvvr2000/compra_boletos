@@ -40,7 +40,7 @@ public class Evento {
         private Date fecha;
         private LocalTime hora;
         private Connection conexion;
-        private PermisoUsuario.Permiso permisoUsuario;
+        private final PermisoUsuario.Permiso permisoUsuario;
         public Builder(PermisoUsuario permisoUsuario) {
             this.permisoUsuario = permisoUsuario.obtenerPermisosUsuario()
         }
