@@ -1,7 +1,8 @@
 package com.megaboletos.usuarios.builders;
 import java.sql.Connection;
+import com.megaboletos.usuarios.ObjetoBase;
 import org.json.JSONObject;
-class Usuario {
+class Usuario implements ObjetoBase {
     String nombre;
     String apellidoPaterno;
     String apellidoMaterno;
@@ -12,13 +13,16 @@ class Usuario {
     boolean sesionCerrada = false;
     Usuario (Connection conexion, String correo, String claveAcceso) {}
     Usuario (Connection conexion) {}
+    @Override
     public boolean sincronizarConBase() {
         return true;
     }
+    @Override
     public boolean actualizarDatos(JSONObject datos) {
         return false;
     }
-    public boolean bajaCuenta() {
+    @Override
+    public boolean baja() {
         return false;
     }
     public boolean cerrarSesion() {
