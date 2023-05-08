@@ -1,16 +1,15 @@
 package com.megaboletos.usuarios.builders;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Currency;
 public class Compra {
-    private final Cliente cliente;
-    private int idEvento;
-    final ArrayList<String> asientos = new ArrayList<String>();
+    private final int idCliente;
+    private final int idEvento;
+    private final int idCompra;
     private Currency precioFinal;
-    Compra(Cliente cliente) {
-        this.cliente = cliente;
-    }
-    public Cliente getCliente() {
-        return cliente;
+    final ArrayList<String> asientos = new ArrayList<String>();
+    Compra(int idCompra) {
+        this.idCompra = idCompra;
     }
     public int getIdEvento() {
         return idEvento;
