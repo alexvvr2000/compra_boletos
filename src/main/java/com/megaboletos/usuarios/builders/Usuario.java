@@ -1,4 +1,4 @@
-package com.megaboletos.usuarios;
+package com.megaboletos.usuarios.builders;
 import java.sql.Connection;
 import org.json.JSONObject;
 class Usuario {
