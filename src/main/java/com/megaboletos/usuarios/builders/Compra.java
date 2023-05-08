@@ -9,9 +9,12 @@ public class Compra {
     private final Currency precioFinal;
     private final Connection conexion;
     final ArrayList<String> asientos = new ArrayList<String>();
-    Compra(Connection conexion,int idCompra) {
+    public Compra(Connection conexion,int idCompra) {
         this.idCompra = idCompra;
         this.conexion = conexion;
+    }
+    private Compra(Cliente clientePorComprar, Builder nuevaCompra) {
+
     }
     public int getIdCliente() {
         return this.idCliente;
@@ -34,8 +37,23 @@ public class Compra {
     public static class Builder {
         private Cliente clientePorComprar;
         private int idEvento;
+        private ArrayList<String> asientos = new ArrayList<String>();
         public Builder(Cliente clientePorComprar) {
             this.clientePorComprar = clientePorComprar;
+        }
+        public Builder agregarEvento() {
+            return this;
+        }
+        public Builder agregarAsientos(ArrayList<String> asientos){
+            return this;
+        }
+        public Compra comprar() {
+            return new Compra(this.clientePorComprar, this);
+        }
+        private boolean pagarAsientos() {
+            return true;
+        }
+        private Currency calcularPrecioFinal(){
         }
     }
 }
