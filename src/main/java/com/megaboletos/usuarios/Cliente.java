@@ -110,7 +110,9 @@ public class Cliente extends Usuario implements ObjetoBase {
             this.apellidoMaterno = apellidoMaterno;
             return this;
         }
-        public Builder setCorreo(String correo) {
+        public Builder setCorreo(String correo) throws Exception{
+            if(Cliente.existeCorreo(this.conexion,correo))
+                throw new Exception("Correo existe en base");
             this.correo = correo;
             return this;
         }
