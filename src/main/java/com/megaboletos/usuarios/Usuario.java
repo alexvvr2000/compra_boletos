@@ -47,4 +47,10 @@ class Usuario {
     public int getIdUsuario() {
         return this.idUsuario;
     }
+    public boolean estaCerradaSesion() {
+        return this.sesionCerrada;
+    }
+    public boolean estaEnBase() throws Exception{
+        return true;
+    }
 }
