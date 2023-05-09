@@ -15,14 +15,14 @@ class Usuario implements ObjetoBase {
     Usuario (Connection conexion, String correo, String claveAcceso) {
         try{
             PreparedStatement query = conexion.prepareStatement(
-                    "select nombre, apellidopaterno, apellidomaterno \n" +
-                            "from usuario\n" +
+                    "select nombre, apellidopaterno, apellidomaterno " +
+                            "from usuario " +
                             "where claveiniciosesion = ? and correo = ?;"
             );
             query.setString(1, claveAcceso);
             query.setString(2, correo);
             ResultSet resultado = query.executeQuery();
-            if(resultado.next()) {
+            if(!resultado.next()) {
                 throw new Exception("No existe usuario");
             }
             this.correo = correo;
@@ -50,15 +50,15 @@ class Usuario implements ObjetoBase {
         return false;
     }
     public String getNombre() {
-        return nombre;
+        return this.nombre;
     }
     public String getApellidoPaterno() {
-        return apellidoPaterno;
+        return this.apellidoPaterno;
     }
     public String getApellidoMaterno() {
-        return apellidoMaterno;
+        return this.apellidoMaterno;
     }
     public String getCorreo() {
-        return correo;
+        return this.correo;
     }
 }

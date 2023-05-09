@@ -4,11 +4,11 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Currency;
 public class Compra {
-    private final int idCliente;
-    private final int idEvento;
-    private final int idCompra;
-    private final int precioFinal;
-    private final Connection conexion;
+    private int idCliente = 0;
+    private int idEvento = 0;
+    private int idCompra;
+    private  int precioFinal = 0;
+    private Connection conexion;
     final ArrayList<String> asientos = new ArrayList<String>();
     public Compra(Connection conexion,int idCompra) {
         this.idCompra = idCompra;

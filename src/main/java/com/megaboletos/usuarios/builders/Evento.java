@@ -3,11 +3,11 @@ import java.sql.Connection;
 import java.time.LocalTime;
 import java.util.Date;
 public class Evento {
-    final private String nombre;
-    final private String lugar;
-    final private Date fecha;
-    final private LocalTime hora;
-    final private Connection conexion;
+    private String nombre;
+    private String lugar;
+    private Date fecha;
+    private LocalTime hora;
+    private Connection conexion;
     private Evento(Builder instancia) {
         this.nombre = instancia.nombre;
         this.lugar = instancia.lugar;
