@@ -33,7 +33,7 @@ class Usuario implements ObjetoBase {
             System.out.println(e.getMessage());
         }
     }
-    Usuario (Connection conexion) {}
+    protected Usuario (Connection conexion) {}
     @Override
     public boolean sincronizarConBase() {
         return true;
