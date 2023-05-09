@@ -1,5 +1,6 @@
 package com.megaboletos.usuarios;
 import com.megaboletos.ObjetoBase;
+import com.megaboletos.pagos.MetodoPago;
 import org.json.JSONObject;
 import java.lang.reflect.Field;
 import java.sql.Connection;
@@ -100,7 +101,10 @@ public class Cliente extends Usuario implements ObjetoBase {
             return new Cliente(this);
         }
     }
-    public boolean modificarMetodoPago(int idMetodoPago) {
+    public MetodoPago obtenerMetodoPago(int idMetodoPago) {
+        return null;
+    }
+    public boolean modificarMetodoPago(int idMetodoPago, JSONObject datos) {
         return false;
     }
     public boolean eliminarMetodoPago(int idMetodoPago) {
