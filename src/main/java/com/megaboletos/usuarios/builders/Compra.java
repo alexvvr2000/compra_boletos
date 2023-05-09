@@ -1,8 +1,9 @@
 package com.megaboletos.usuarios.builders;
-import java.math.BigDecimal;
+import com.megaboletos.usuarios.MetodoPago;
+
 import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.Currency;
+
 public class Compra {
     private int idCliente = 0;
     private int idEvento = 0;

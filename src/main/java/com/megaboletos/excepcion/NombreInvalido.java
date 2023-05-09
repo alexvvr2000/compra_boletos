@@ -1,4 +1,4 @@
-package com.megaboletos.usuarios.excepcion;
+package com.megaboletos.excepcion;
 
 public class NombreInvalido extends Exception{
     NombreInvalido() {}

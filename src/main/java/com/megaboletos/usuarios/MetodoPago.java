@@ -1,4 +1,4 @@
-package com.megaboletos.usuarios.builders;
+package com.megaboletos.usuarios;
 
 public interface MetodoPago {
     boolean pagar(int cantidadDinero, int CVV);

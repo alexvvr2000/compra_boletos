@@ -1,5 +1,7 @@
-package com.megaboletos.usuarios.builders;
-import java.sql.Connection;
+package com.megaboletos.usuarios;
+import com.megaboletos.usuarios.MetodoPago;
+import com.megaboletos.usuarios.builders.Cliente;
+
 class Visa implements MetodoPago {
     Visa(Cliente clienteAComprar) {
     }
