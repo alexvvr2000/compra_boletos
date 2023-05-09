@@ -21,25 +21,17 @@ create table Evento (
 	idEvento serial primary key,
 	nombre varchar(30),
 	lugar varchar(30),
-	fecha date,
-	hora time,
+	fecha timestamp,
 	estaCancelado bool default FALSE
 );
 create type multinacional as enum ('visa','mastercard');
-create table MetodoPago (
-	idMetodoPago serial primary key,
-	idUsuario integer references Usuario(idUsuario) on delete cascade,
-	cuenta integer unique,
-	fechaVencimiento date,
-	tipoCuenta multinacional
-);
 create table capacidad (
 	idEvento integer primary key references Evento(idEvento) on delete cascade,
 	filasOcupadas json,
 	precioAsiento NUMERIC
 );
-insert into evento(nombre, lugar, fecha, hora)
-values ('Evento', 'Arena monterrey', current_date, date_trunc('hour', current_timestamp));
+insert into evento(nombre, lugar, fecha)
+values ('Evento', 'Arena monterrey', now());
 insert into capacidad(idevento, filasocupadas, precioasiento)
 values (
 	1, 
@@ -47,6 +39,13 @@ values (
 	300
 );
 select * from capacidad;
+create table MetodoPago (
+	idMetodoPago serial primary key,
+	idUsuario integer references Usuario(idUsuario) on delete cascade,
+	cuenta integer unique,
+	fechaVencimiento char(5),
+	tipoCuenta multinacional
+);
 create table compras (
 	idCompras serial primary key,
 	idUsuario integer references Usuario(idUsuario) on delete cascade,

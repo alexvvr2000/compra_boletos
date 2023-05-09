@@ -9,11 +9,21 @@ public class Evento {
     private String nombre;
     private String lugar;
     private Date fecha;
-    private LocalTime hora;
     private Connection conexion;
     private int idEvento;
     public Evento(Connection conexion,int idEvento) throws Exception {
+        if(!Evento.existeEvento(conexion,idEvento))
+            throw new Exception("Evento no existe");
+        PreparedStatement query = conexion.prepareStatement(
+                "select nombre, lugar, fecha, hora where idevento = ?"
+        );
+        query.setInt(1, idEvento);
+        ResultSet resultado = query.executeQuery();
+        resultado.next();
         this.conexion = conexion;
+        this.idEvento = idEvento;
+        this.nombre = resultado.getString("nombre");
+        this.fecha = resultado.getTimestamp("fecha");
     }
     public String getNombre() {
         return nombre;
@@ -23,9 +33,6 @@ public class Evento {
     }
     public Date getFecha() {
         return fecha;
-    }
-    public LocalTime getHora() {
-        return hora;
     }
     public int getIdEvento() {
         return this.idEvento;
