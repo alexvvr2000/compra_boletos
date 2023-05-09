@@ -119,10 +119,6 @@ public class Cliente extends Usuario implements ObjetoBase {
             this.correo = correo;
             return this;
         }
-        public Builder setConexion(Connection conexion) {
-            this.conexion = conexion;
-            return this;
-        }
         public Builder setClaveAcceso(String claveAcceso) {
             this.claveAcceso = claveAcceso;
             return this;
