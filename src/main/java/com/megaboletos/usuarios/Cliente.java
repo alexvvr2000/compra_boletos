@@ -1,16 +1,18 @@
 package com.megaboletos.usuarios;
 import com.megaboletos.ObjetoBase;
-import org.json.JSONException;
 import org.json.JSONObject;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import static java.util.Map.entry;
 public class Cliente extends Usuario implements ObjetoBase {
-    private final String[] campos = {"nombre", "apellidopaterno", "correo", "claveiniciosesion"};
+    private final String[] campos = {
+            "nombre",
+            "apellidopaterno",
+            "apellidomaterno",
+            "correo",
+            "claveiniciosesion"
+    };
     private Cliente(final Builder instancia){
         super(instancia.conexion);
         this.nombre = instancia.nombre;
