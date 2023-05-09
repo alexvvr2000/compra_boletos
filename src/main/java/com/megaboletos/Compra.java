@@ -40,12 +40,15 @@ public class Compra {
         public Builder(Cliente clientePorComprar) {
             this.clientePorComprar = clientePorComprar;
         }
-        public Builder agregarEvento(int idEvento, ArrayList<String> asientos) {
+        public Builder agregarEvento(int idEvento) {
             this.idEvento = idEvento;
             return this;
         }
-        public Builder agregarMetodoPago(int idMetodoPago){
+        public Builder metodoPagoUsado(int idMetodoPago){
             this.idMetodoPago = idMetodoPago;
+            return this;
+        }
+        public Builder agregarAsientos(Map<String, Integer> asientos) {
             return this;
         }
         @Override
