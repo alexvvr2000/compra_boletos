@@ -24,7 +24,7 @@ create table Evento (
 	fecha timestamp,
 	estaCancelado bool default FALSE
 );
-create type multinacional as enum ('visa','mastercard');
+create type multinacional as enum ('visa','mastercard','americanExpress');
 create table capacidad (
 	idEvento integer primary key references Evento(idEvento) on delete cascade,
 	filasOcupadas json

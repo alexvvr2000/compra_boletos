@@ -49,7 +49,7 @@ public class Compra {
             this.idEvento = idEvento;
             return this;
         }
-        public Builder agregarMetodoPago(MetodoPago metodoPago){
+        public Builder agregarMetodoPago(String numeroTarjeta, String fecha){
             this.metodoPago = metodoPago;
             return this;
         }
