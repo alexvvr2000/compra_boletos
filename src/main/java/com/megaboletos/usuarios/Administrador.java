@@ -17,6 +17,15 @@ public class Administrador extends Usuario{
         return conjunto.next();
     }
     public static boolean esAdmin(Connection conexion, int idUsuario) throws Exception {
-        return true;
+        if(!Administrador.existeUsuario(conexion, idUsuario)) {
+            throw new Exception("No existe en base");
+        }
+        PreparedStatement query = conexion.prepareStatement(
+                "select esadmin from usuario where idusuario = ?;"
+        );
+        query.setInt(1, idUsuario);
+        ResultSet conjunto = query.executeQuery();
+        conjunto.next();
+        return conjunto.getBoolean("esadmin");
     }
 }
