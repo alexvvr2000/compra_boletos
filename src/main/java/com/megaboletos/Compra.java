@@ -11,7 +11,7 @@ public class Compra {
     private int idCompra = 0;
     private int precioFinal = 0;
     private Connection conexion = null;
-    final Map<String, Integer> asientos = new HashMap<String, Integer>();
+    final Map<String, Integer> asientosComprados = new HashMap<String, Integer>();
     public Compra(Connection conexion,int idCompra) {
         this.idCompra = idCompra;
         this.conexion = conexion;
@@ -32,7 +32,7 @@ public class Compra {
         return this.precioFinal;
     }
     public Map<String, Integer> getAsientos() {
-        return Collections.unmodifiableMap(this.asientos);
+        return this.asientosComprados;
     }
     public boolean pagar(int CVV, Cliente cliente){
         return true;
@@ -55,7 +55,7 @@ public class Compra {
         }
         @Override
         public Compra crear() throws Exception{
-            return new Compra(this.clientePorComprar, this,this.metodoPago);
+            return new Compra(this.clientePorComprar, this, this.metodoPago);
         }
         @Override
         public boolean camposValidos() {
