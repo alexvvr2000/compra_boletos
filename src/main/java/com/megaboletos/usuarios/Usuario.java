@@ -7,7 +7,6 @@ class Usuario {
     String correo = "";
     int idUsuario = 0;
     Connection conexionBase;
-    boolean estaEliminado = false;
     boolean sesionCerrada = false;
     Usuario (Connection conexion, String correo, String claveAcceso) throws Exception{
         this.conexionBase = conexion;
@@ -49,8 +48,5 @@ class Usuario {
     }
     public boolean estaCerradaSesion() {
         return this.sesionCerrada;
-    }
-    public boolean estaEnBase() throws Exception{
-        return true;
     }
 }
