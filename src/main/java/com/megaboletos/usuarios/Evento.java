@@ -1,8 +1,11 @@
 package com.megaboletos.usuarios;
+import com.megaboletos.ObjetoBase;
+import org.json.JSONObject;
+
 import java.sql.Connection;
 import java.time.LocalTime;
 import java.util.Date;
-public class Evento {
+public class Evento implements ObjetoBase {
     private String nombre;
     private String lugar;
     private Date fecha;
@@ -30,7 +33,18 @@ public class Evento {
     public LocalTime getHora() {
         return hora;
     }
-    public static class Builder {
+
+    @Override
+    public boolean actualizarDatos(JSONObject datos) throws Exception {
+        return false;
+    }
+
+    @Override
+    public boolean baja() throws Exception {
+        return false;
+    }
+
+    public static class Builder implements ClassBuilder<Evento> {
         private String nombre;
         private String lugar;
         private Date fecha;
@@ -51,8 +65,14 @@ public class Evento {
         public void setConexion(Connection conexion) {
             this.conexion = conexion;
         }
+        @Override
         public Evento crear() {
             return new Evento(this);
+        }
+
+        @Override
+        public boolean camposValidos() {
+            return false;
         }
     }
 }
