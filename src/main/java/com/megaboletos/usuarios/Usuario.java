@@ -21,6 +21,7 @@ class Usuario implements ObjetoBase {
             query.setString(1, claveAcceso);
             query.setString(2, correo);
             ResultSet resultado = query.executeQuery();
+            resultado.next();
             this.correo = correo;
             this.nombre = resultado.getString("nombre");
             this.apellidoPaterno = resultado.getString("apellidopaterno");

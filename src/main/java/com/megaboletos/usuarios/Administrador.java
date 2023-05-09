@@ -10,7 +10,7 @@ public class Administrador extends Usuario{
     }
     public static boolean existeUsuario(Connection conexion, int idUsuario) throws SQLException {
         PreparedStatement query = conexion.prepareStatement(
-                "select nombre as valor from usuario where idusuario = ?;"
+                "select nombre from usuario where idusuario = ?;"
         );
         query.setInt(1, idUsuario);
         ResultSet conjunto = query.executeQuery();
