@@ -1,11 +1,8 @@
 package com.megaboletos;
-
 import com.megaboletos.pagos.MetodoPago;
 import com.megaboletos.usuarios.Cliente;
-
 import java.sql.Connection;
 import java.util.ArrayList;
-
 public class Compra {
     private int idCliente = 0;
     private int idEvento = 0;

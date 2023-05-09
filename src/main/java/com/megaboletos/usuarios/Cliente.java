@@ -1,6 +1,7 @@
 package com.megaboletos.usuarios;
 import com.megaboletos.ObjetoBase;
 import org.json.JSONObject;
+import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -8,10 +9,10 @@ import java.util.ArrayList;
 public class Cliente extends Usuario implements ObjetoBase {
     private final String[] campos = {
             "nombre",
-            "apellidopaterno",
-            "apellidomaterno",
+            "apellidoPaterno",
+            "apellidoMaterno",
             "correo",
-            "claveiniciosesion"
+            "claveInicioSesion"
     };
     private Cliente(final Builder instancia){
         super(instancia.conexion);
@@ -21,19 +22,37 @@ public class Cliente extends Usuario implements ObjetoBase {
         this.correo = instancia.correo;
         this.conexionBase = instancia.conexion;
     }
-    public Cliente(Connection connection, String correo, String claveAcceso) throws SQLException {
+    public Cliente(Connection connection, String correo, String claveAcceso) throws Exception {
         super(connection, correo, claveAcceso);
+        if(Administrador.esAdmin( this.conexionBase, this.idUsuario)) {
+            throw new Exception("Es admin");
+        }
     }
     @Override
     public boolean actualizarDatos(JSONObject datos) throws Exception {
         ArrayList<String> campoBase = new ArrayList<String>();
         for(String campo: this.campos) {
             if(!datos.has(campo)) continue;
+            String nuevoCampo = datos.getString(campo);
             campoBase.add(
                     String.format(
-                            "%s = %s", campo, datos.getString(campo)
+                            "%s = '%s'", campo, nuevoCampo
                     )
             );
+            switch (campo) {
+                case "nombre":
+                    this.nombre = nuevoCampo;
+                    break;
+                case "apellidoPaterno":
+                    this.apellidoPaterno = nuevoCampo;
+                    break;
+                case "apellidoMaterno":
+                    this.apellidoMaterno = nuevoCampo;
+                    break;
+                case "correo":
+                    this.correo = nuevoCampo;
+                    break;
+            }
         }
         String[] arreglo = new String[campoBase.size()];
         String camposQuery = String.join(",", campoBase.toArray(arreglo));
@@ -42,7 +61,9 @@ public class Cliente extends Usuario implements ObjetoBase {
                 , camposQuery, this.idUsuario
         );
         PreparedStatement query = conexionBase.prepareStatement(stringQuery);
-        return query.execute();
+        int camposAfectados = query.executeUpdate();
+        conexionBase.commit();
+        return camposAfectados == 1;
     }
     @Override
     public boolean baja() throws SQLException {

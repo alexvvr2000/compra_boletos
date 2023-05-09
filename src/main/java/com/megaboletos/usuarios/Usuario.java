@@ -9,21 +9,22 @@ class Usuario {
     Connection conexionBase;
     boolean estaEliminado = false;
     boolean sesionCerrada = false;
-    Usuario (Connection conexion, String correo, String claveAcceso) throws SQLException{
-        PreparedStatement query = conexion.prepareStatement(
+    Usuario (Connection conexion, String correo, String claveAcceso) throws Exception{
+        this.conexionBase = conexion;
+        PreparedStatement query = this.conexionBase.prepareStatement(
                 "select idusuario ,nombre, apellidopaterno, apellidomaterno " +
-                        "from usuario " +
-                        "where claveiniciosesion = ? and correo = ?;"
+                        " from usuario " +
+                        " where claveiniciosesion = ? and correo = ?;"
         );
         query.setString(1, claveAcceso);
         query.setString(2, correo);
         ResultSet resultado = query.executeQuery();
         resultado.next();
         this.correo = correo;
+        this.idUsuario = resultado.getInt("idusuario");
         this.nombre = resultado.getString("nombre");
         this.apellidoPaterno = resultado.getString("apellidopaterno");
         this.apellidoMaterno = resultado.getString("apellidomaterno");
-        this.idUsuario = resultado.getInt("idusuario");
     }
     protected Usuario (Connection conexion) {
         this.conexionBase = conexion;
