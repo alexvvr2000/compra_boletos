@@ -18,6 +18,10 @@ public class Cliente extends Usuario implements ObjetoBase {
     private Cliente(final Builder instancia, String claveAcceso) throws Exception{
         super();
         this.conexionBase = instancia.conexion;
+        this.nombre = instancia.nombre;
+        this.apellidoPaterno = instancia.apellidoPaterno;
+        this.apellidoMaterno = instancia.apellidoMaterno;
+        this.correo = instancia.correo;
     }
     public Cliente(Connection connection, String correo, String claveAcceso) throws Exception {
         super(connection, correo, claveAcceso);
