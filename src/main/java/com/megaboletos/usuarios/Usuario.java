@@ -1,6 +1,5 @@
 package com.megaboletos.usuarios;
 import java.sql.*;
-
 import com.megaboletos.ObjetoBase;
 import org.json.JSONObject;
 class Usuario implements ObjetoBase {
@@ -21,7 +20,7 @@ class Usuario implements ObjetoBase {
             );
             query.setString(1, claveAcceso);
             query.setString(2, correo);
-            ResultSet resultado = query.executeQuery()
+            ResultSet resultado = query.executeQuery();
             this.correo = correo;
             this.nombre = resultado.getString("nombre");
             this.apellidoPaterno = resultado.getString("apellidopaterno");
@@ -32,8 +31,10 @@ class Usuario implements ObjetoBase {
         }
     }
     protected Usuario (Connection conexion) {}
-    @Override
-    public boolean sincronizarConBase() {
+    public static boolean esAdmin(Connection conexion, int idUsuario) throws Exception {
+        return true;
+    }
+    public static boolean existeUsuario(Connection conexion, int idUsuario) throws Exception {
         return true;
     }
     @Override
