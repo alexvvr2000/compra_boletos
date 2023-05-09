@@ -27,16 +27,14 @@ create table Evento (
 create type multinacional as enum ('visa','mastercard');
 create table capacidad (
 	idEvento integer primary key references Evento(idEvento) on delete cascade,
-	filasOcupadas json,
-	precioAsiento NUMERIC
+	filasOcupadas json
 );
 insert into evento(nombre, lugar, fecha)
 values ('Evento', 'Arena monterrey', now());
-insert into capacidad(idevento, filasocupadas, precioasiento)
+insert into capacidad(idevento, filasocupadas)
 values (
 	1, 
-	'{"filaA": {"1":true,"2":true,"3":true}, "filaB":{"1":false,"2":true,"3":true}}',
-	300
+	'{"filaA": {"1":true,"2":true,"3":true,"precio": 200}, "filaB":{"1":false,"2":true,"3":true, "precio": 500}}'
 );
 select * from capacidad;
 create table MetodoPago (
