@@ -53,7 +53,7 @@ public class Compra {
             return this;
         }
         @Override
-        public Compra crear() {
+        public Compra crear() throws Exception{
             return new Compra(this.clientePorComprar, this,this.metodoPago);
         }
         @Override

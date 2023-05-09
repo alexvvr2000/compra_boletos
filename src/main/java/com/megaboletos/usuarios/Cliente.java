@@ -15,12 +15,8 @@ public class Cliente extends Usuario implements ObjetoBase {
             "correo",
             "claveInicioSesion"
     };
-    private Cliente(final Builder instancia){
-        super(instancia.conexion);
-        this.nombre = instancia.nombre;
-        this.apellidoPaterno = instancia.apellidoPaterno;
-        this.apellidoMaterno = instancia.apellidoMaterno;
-        this.correo = instancia.correo;
+    private Cliente(final Builder instancia, String claveAcceso) throws Exception{
+        super();
         this.conexionBase = instancia.conexion;
     }
     public Cliente(Connection connection, String correo, String claveAcceso) throws Exception {
@@ -76,11 +72,12 @@ public class Cliente extends Usuario implements ObjetoBase {
         conexionBase.commit();
         return camposAfectados == 1;
     }
-    public static class Builder {
+    public static class Builder implements ClassBuilder<Cliente> {
         private String nombre;
         private String apellidoPaterno;
         private String apellidoMaterno;
         private String correo;
+        private String claveAcceso;
         private Connection conexion;
         public void setNombre(String nombre) {
             this.nombre = nombre;
@@ -97,8 +94,16 @@ public class Cliente extends Usuario implements ObjetoBase {
         public void setConexion(Connection conexion) {
             this.conexion = conexion;
         }
-        public Cliente crear(String claveAcceso) {
-            return new Cliente(this);
+        public void setClaveAcceso(String claveAcceso) {
+            this.claveAcceso = claveAcceso;
+        }
+        @Override
+        public Cliente crear() throws Exception{
+            return new Cliente(this, this.claveAcceso);
+        }
+        @Override
+        public boolean camposValidos() {
+            return false;
         }
     }
     public MetodoPago obtenerMetodoPago(int idMetodoPago) {

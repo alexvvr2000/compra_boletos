@@ -25,9 +25,7 @@ class Usuario {
         this.apellidoPaterno = resultado.getString("apellidopaterno");
         this.apellidoMaterno = resultado.getString("apellidomaterno");
     }
-    protected Usuario (Connection conexion){
-        this.conexionBase = conexion;
-    }
+    protected Usuario(){}
     public void cerrarSesion() throws Exception {
         if (this.sesionCerrada) throw new Exception("Sesion esta cerrada");
         if (!Administrador.existeUsuario(this.conexionBase, this.idUsuario))
