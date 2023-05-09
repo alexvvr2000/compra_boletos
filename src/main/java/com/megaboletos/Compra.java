@@ -11,10 +11,6 @@ public class Compra {
     private int precioFinal = 0;
     private Connection conexion = null;
     final Map<String, Integer> asientosComprados = new HashMap<String, Integer>();
-    public Compra(Connection conexion,int idCompra) {
-        this.idCompra = idCompra;
-        this.conexion = conexion;
-    }
     private Compra(Cliente clientePorComprar, Builder nuevaCompra, int idMetodoPago) {
 
     }
