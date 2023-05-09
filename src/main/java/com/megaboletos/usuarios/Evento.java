@@ -3,7 +3,10 @@ import org.json.JSONObject;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Map;
+
 public class Evento {
     private String nombre = "";
     private String lugar = "";
@@ -40,7 +43,7 @@ public class Evento {
     public boolean eventoCancelado() throws Exception{
         return true;
     }
-    public JSONObject asientosDisponibles() throws Exception {
+    public Map<String, Object> asientosDisponibles(String fila) throws Exception {
         PreparedStatement query = this.conexion.prepareStatement(
                 "select filasocupadas from capacidad where idevento = ?"
         );
@@ -48,7 +51,9 @@ public class Evento {
         ResultSet resultado = query.executeQuery();
         resultado.next();
         String jsonAsientos = resultado.getString("filasocupadas");
-        return new JSONObject(jsonAsientos);
+        JSONObject filaSeleccionada = new JSONObject(jsonAsientos).getJSONObject(fila);
+        Map<String, Object> asientos = filaSeleccionada.toMap();
+        return Collections.unmodifiableMap(asientos);
     }
     public static boolean existeEvento(Connection conexion, int idEvento) throws Exception {
         PreparedStatement query = conexion.prepareStatement(
@@ -61,9 +66,8 @@ public class Evento {
         conjunto.next();
         return conjunto.getBoolean("existe");
     }
-    public boolean asientoDisponible(String fila, int asiento) throws Exception{
-        JSONObject filas = this.asientosDisponibles();
-        JSONObject asientos = filas.getJSONObject(fila);
-        return asientos.getBoolean(Integer.toString(asiento));
+    public boolean estaDisponible(String fila, int asiento) throws Exception{
+        Map<String, Object> filas = this.asientosDisponibles(fila);
+        return (boolean)filas.get(Integer.toString(asiento));
     }
 }
