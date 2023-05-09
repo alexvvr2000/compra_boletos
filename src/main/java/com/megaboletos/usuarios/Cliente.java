@@ -98,7 +98,7 @@ public class Cliente extends Usuario implements ObjetoBase {
         private String correo;
         private String claveAcceso;
         private Connection conexion;
-        Builder(Connection conexion) {
+        public Builder(Connection conexion) {
             this.conexion = conexion;
         }
         public Builder setNombre(String nombre) {
