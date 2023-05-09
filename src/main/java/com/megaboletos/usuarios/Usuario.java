@@ -31,10 +31,6 @@ class Usuario implements ObjetoBase {
         this.conexionBase = conexion;
     }
     @Override
-    public boolean actualizarDatos(JSONObject datos) {
-        return false;
-    }
-    @Override
     public boolean baja() {
         return false;
     }
