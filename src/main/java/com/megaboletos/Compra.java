@@ -7,6 +7,7 @@ public class Compra {
     private int idCliente = 0;
     private int idEvento = 0;
     private int idCompra = 0;
+    private int idMetodoPago = 0;
     private int precioFinal = 0;
     private Connection conexion = null;
     final Map<String, Integer> asientosComprados = new HashMap<String, Integer>();
@@ -27,7 +28,7 @@ public class Compra {
         return this.idCompra;
     }
     public int getIdMetodoPago() {
-        return this.getIdMetodoPago();
+        return this.idMetodoPago;
     }
     public int getPrecioFinal() {
         return this.precioFinal;
@@ -41,8 +42,8 @@ public class Compra {
     public static class Builder implements ClassBuilder<Compra> {
         private Cliente clientePorComprar = null;
         private int idEvento = 0;
-        private Map<String, Integer> asientos = new HashMap<String, Integer>();
         private int idMetodoPago = 0;
+        private Map<String, Integer> asientos = new HashMap<String, Integer>();
         public Builder(Cliente clientePorComprar) {
             this.clientePorComprar = clientePorComprar;
         }
