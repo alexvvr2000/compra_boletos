@@ -15,7 +15,7 @@ public class Evento {
         if(!Evento.existeEvento(conexion,idEvento))
             throw new Exception("Evento no existe");
         PreparedStatement query = conexion.prepareStatement(
-                "select nombre, lugar, fecha, hora where idevento = ?"
+                "select nombre, lugar, fecha from evento where idevento = ?"
         );
         query.setInt(1, idEvento);
         ResultSet resultado = query.executeQuery();
@@ -24,6 +24,7 @@ public class Evento {
         this.idEvento = idEvento;
         this.nombre = resultado.getString("nombre");
         this.fecha = resultado.getTimestamp("fecha");
+        this.lugar = resultado.getString("lugar");
     }
     public String getNombre() {
         return nombre;
@@ -46,7 +47,7 @@ public class Evento {
     public static boolean existeEvento(Connection conexion, int idEvento) throws Exception {
         PreparedStatement query = conexion.prepareStatement(
                 "select exists(" +
-                        "select nombre from cliente where idevento = ?" +
+                        "select nombre from evento where idevento = ?" +
                         ") as existe;"
         );
         query.setInt(1, idEvento);
