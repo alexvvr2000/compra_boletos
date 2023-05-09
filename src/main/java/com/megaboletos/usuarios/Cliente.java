@@ -98,23 +98,29 @@ public class Cliente extends Usuario implements ObjetoBase {
         private String correo;
         private String claveAcceso;
         private Connection conexion;
-        public void setNombre(String nombre) {
+        public Builder setNombre(String nombre) {
             this.nombre = nombre;
+            return this;
         }
-        public void setApellidoPaterno(String apellidoPaterno) {
+        public Builder setApellidoPaterno(String apellidoPaterno) {
             this.apellidoPaterno = apellidoPaterno;
+            return this;
         }
-        public void setApellidoMaterno(String apellidoMaterno) {
+        public Builder setApellidoMaterno(String apellidoMaterno) {
             this.apellidoMaterno = apellidoMaterno;
+            return this;
         }
-        public void setCorreo(String correo) {
+        public Builder setCorreo(String correo) {
             this.correo = correo;
+            return this;
         }
-        public void setConexion(Connection conexion) {
+        public Builder setConexion(Connection conexion) {
             this.conexion = conexion;
+            return this;
         }
-        public void setClaveAcceso(String claveAcceso) {
+        public Builder setClaveAcceso(String claveAcceso) {
             this.claveAcceso = claveAcceso;
+            return this;
         }
         @Override
         public Cliente crear() throws Exception{
