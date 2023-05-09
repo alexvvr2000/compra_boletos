@@ -6,7 +6,7 @@ class Usuario {
     String apellidoMaterno = "";
     String correo = "";
     int idUsuario = 0;
-    Connection conexionBase;
+    Connection conexionBase = null;
     boolean sesionCerrada = false;
     Usuario (Connection conexion, String correo, String claveAcceso) throws Exception{
         this.conexionBase = conexion;

@@ -6,11 +6,11 @@ import java.sql.ResultSet;
 import java.time.LocalTime;
 import java.util.Date;
 public class Evento {
-    private String nombre;
-    private String lugar;
-    private Date fecha;
-    private Connection conexion;
-    private int idEvento;
+    private String nombre = "";
+    private String lugar = "";
+    private Date fecha = null;
+    private Connection conexion = null;
+    private int idEvento = 0;
     public Evento(Connection conexion,int idEvento) throws Exception {
         if(!Evento.existeEvento(conexion,idEvento))
             throw new Exception("Evento no existe");

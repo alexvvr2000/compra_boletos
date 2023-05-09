@@ -7,9 +7,9 @@ import java.util.ArrayList;
 public class Compra {
     private int idCliente = 0;
     private int idEvento = 0;
-    private int idCompra;
+    private int idCompra = 0;
     private  int precioFinal = 0;
-    private Connection conexion;
+    private Connection conexion = null;
     final ArrayList<String> asientos = new ArrayList<String>();
     public Compra(Connection conexion,int idCompra) {
         this.idCompra = idCompra;
@@ -37,10 +37,10 @@ public class Compra {
         return true;
     }
     public static class Builder implements ClassBuilder<Compra> {
-        private Cliente clientePorComprar;
-        private int idEvento;
+        private Cliente clientePorComprar = null;
+        private int idEvento = 0;
         private ArrayList<String> asientos = new ArrayList<String>();
-        private MetodoPago metodoPago;
+        private MetodoPago metodoPago = null;
         public Builder(Cliente clientePorComprar) {
             this.clientePorComprar = clientePorComprar;
         }

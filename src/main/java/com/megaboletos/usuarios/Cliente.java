@@ -92,12 +92,12 @@ public class Cliente extends Usuario implements ObjetoBase {
         return camposAfectados == 1;
     }
     public static class Builder implements ClassBuilder<Cliente> {
-        private String nombre;
-        private String apellidoPaterno;
-        private String apellidoMaterno;
-        private String correo;
-        private String claveAcceso;
-        private Connection conexion;
+        private String nombre = "";
+        private String apellidoPaterno = "";
+        private String apellidoMaterno = "";
+        private String correo = "";
+        private String claveAcceso = "";
+        private Connection conexion = null;
         public Builder(Connection conexion) {
             this.conexion = conexion;
         }
