@@ -1,6 +1,6 @@
 package com.megaboletos.usuarios;
 
-public interface builder<T> {
+public interface ClassBuilder<T> {
     T crear();
     boolean camposValidos();
 }

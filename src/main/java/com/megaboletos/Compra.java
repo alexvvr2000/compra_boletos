@@ -1,5 +1,6 @@
 package com.megaboletos;
 import com.megaboletos.pagos.MetodoPago;
+import com.megaboletos.usuarios.ClassBuilder;
 import com.megaboletos.usuarios.Cliente;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public class Compra {
         this.idCompra = idCompra;
         this.conexion = conexion;
     }
-    private Compra(Cliente clientePorComprar, Builder nuevaCompra) {
+    private Compra(Cliente clientePorComprar, Builder nuevaCompra, MetodoPago metodoPago) {
 
     }
     public int getIdCliente() {
@@ -35,10 +36,11 @@ public class Compra {
     public boolean pagar(int CVV, Cliente cliente){
         return true;
     }
-    public static class Builder {
+    public static class Builder implements ClassBuilder<Compra> {
         private Cliente clientePorComprar;
         private int idEvento;
         private ArrayList<String> asientos = new ArrayList<String>();
+        private MetodoPago metodoPago;
         public Builder(Cliente clientePorComprar) {
             this.clientePorComprar = clientePorComprar;
         }
@@ -46,8 +48,17 @@ public class Compra {
             this.idEvento = idEvento;
             return this;
         }
-        public Compra comprar(MetodoPago metodoPago) {
-            return new Compra(this.clientePorComprar, this);
+        public Builder agregarMetodoPago(MetodoPago metodoPago){
+            this.metodoPago = metodoPago;
+            return this;
+        }
+        @Override
+        public Compra crear() {
+            return new Compra(this.clientePorComprar, this,this.metodoPago);
+        }
+        @Override
+        public boolean camposValidos() {
+            return false;
         }
         private boolean pagarAsientos() {
             return true;
