@@ -8,27 +8,25 @@ class Usuario implements ObjetoBase {
     String apellidoPaterno;
     String apellidoMaterno;
     String correo;
+    int idUsuario;
     Connection conexionBase;
-    boolean estaBaneado = false;
     boolean estaEliminado = false;
     boolean sesionCerrada = false;
     Usuario (Connection conexion, String correo, String claveAcceso) {
         try{
             PreparedStatement query = conexion.prepareStatement(
-                    "select nombre, apellidopaterno, apellidomaterno " +
+                    "select idusuario ,nombre, apellidopaterno, apellidomaterno " +
                             "from usuario " +
                             "where claveiniciosesion = ? and correo = ?;"
             );
             query.setString(1, claveAcceso);
             query.setString(2, correo);
-            ResultSet resultado = query.executeQuery();
-            if(!resultado.next()) {
-                throw new Exception("No existe usuario");
-            }
+            ResultSet resultado = query.executeQuery()
             this.correo = correo;
             this.nombre = resultado.getString("nombre");
             this.apellidoPaterno = resultado.getString("apellidopaterno");
             this.apellidoMaterno = resultado.getString("apellidomaterno");
+            this.idUsuario = resultado.getInt("idusuario");
         } catch(Exception e) {
             System.out.println(e.getMessage());
         }
@@ -60,5 +58,8 @@ class Usuario implements ObjetoBase {
     }
     public String getCorreo() {
         return this.correo;
+    }
+    public int getIdUsuario() {
+        return this.idUsuario;
     }
 }
