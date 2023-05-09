@@ -9,7 +9,7 @@ create table Usuario (
 		nombre varchar(30),
 		apellidoPaterno varchar(30),
 		apellidoMaterno varchar(30),
-		correo varchar(30),
+		correo varchar(30) unique,
 		claveInicioSesion varchar(30),
 		esAdmin bool default FALSE
 );
