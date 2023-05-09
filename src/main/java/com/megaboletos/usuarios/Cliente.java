@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 public class Cliente extends Usuario implements ObjetoBase {
@@ -24,8 +25,7 @@ public class Cliente extends Usuario implements ObjetoBase {
         this.correo = instancia.correo;
         PreparedStatement query = this.conexionBase.prepareStatement(
                 "insert into usuario (nombre, apellidoPaterno, apellidoMaterno, correo, claveInicioSesion, esAdmin) " +
-                        " values " +
-                        " (?, ?, ?, ?, ?, ?);"
+                        " values (?, ?, ?, ?, ?, ?);"
         );
         query.setString(1, this.nombre);
         query.setString(2, this.apellidoPaterno);
@@ -124,8 +124,8 @@ public class Cliente extends Usuario implements ObjetoBase {
             boolean nombreValido = this.nombre.length() >= 1 && this.nombre.length() <= 30;
             boolean apellidoPaternoValido = this.apellidoPaterno.length() >= 1 && this.apellidoPaterno.length() <= 30;
             boolean apellidoMaternoValido = this.apellidoMaterno.length() >= 1 && this.apellidoMaterno.length() <= 30;
-            boolean correoValido = this.correo.length() >= 1 && this.correo.length() <= 30;;
-            boolean claveValida = this.claveAcceso.length() >= 1 && this.claveAcceso.length() <= 30;;
+            boolean correoValido = this.correo.length() >= 1 && this.correo.length() <= 30;
+            boolean claveValida = this.claveAcceso.length() >= 1 && this.claveAcceso.length() <= 30;
             boolean conexionValida = this.conexion != null;
 
             return nombreValido &&
@@ -135,6 +135,17 @@ public class Cliente extends Usuario implements ObjetoBase {
                     claveValida &&
                     conexionValida;
         }
+    }
+    public static boolean existeCorreo(Connection conexion,String correo) throws Exception{
+        PreparedStatement query = conexion.prepareStatement(
+                "select exists(" +
+                        "select nombre from usuario where correo = ?" +
+                        ") as existe;"
+        );
+        query.setString(1, correo);
+        ResultSet conjunto = query.executeQuery();
+        conjunto.next();
+        return conjunto.getBoolean("existe");
     }
     public MetodoPago obtenerMetodoPago(int idMetodoPago) {
         return null;
