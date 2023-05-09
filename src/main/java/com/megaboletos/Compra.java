@@ -32,9 +32,6 @@ public class Compra {
     public Map<String, Integer> getAsientos() {
         return this.asientosComprados;
     }
-    public boolean pagar(int CVV, Cliente cliente){
-        return true;
-    }
     public static class Builder implements ClassBuilder<Compra> {
         private Cliente clientePorComprar = null;
         private int idEvento = 0;
