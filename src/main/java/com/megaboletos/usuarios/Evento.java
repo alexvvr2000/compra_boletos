@@ -62,4 +62,9 @@ public class Evento {
         conjunto.next();
         return conjunto.getBoolean("existe");
     }
+    public boolean asientoDisponible(String fila, int asiento) throws Exception{
+        JSONObject filas = this.asientosDisponibles();
+        JSONObject asientos = filas.getJSONObject(fila);
+        return asientos.getBoolean(Integer.toString(asiento));
+    }
 }
