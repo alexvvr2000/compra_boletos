@@ -1,9 +1,10 @@
 package com.megaboletos.usuarios;
+import com.megaboletos.ObjetoBase;
+import org.json.JSONObject;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
-public class Administrador extends Usuario{
+public class Administrador extends Usuario implements ObjetoBase {
     Administrador(Connection conexion, String correo, String claveAcceso) throws Exception{
         super(conexion, correo, claveAcceso);
     }
@@ -29,5 +30,13 @@ public class Administrador extends Usuario{
         ResultSet conjunto = query.executeQuery();
         conjunto.next();
         return conjunto.getBoolean("esadmin");
+    }
+    @Override
+    public boolean actualizarDatos(JSONObject datos) throws Exception {
+        return false;
+    }
+    @Override
+    public boolean baja() throws Exception {
+        return false;
     }
 }
