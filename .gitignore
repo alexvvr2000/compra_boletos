@@ -1,3 +1,6 @@
+# Archivos de prueba
+src/main/java/com/megaboletos/Pruebas.java
+
 # Compilacion de maven
 target/*
 
