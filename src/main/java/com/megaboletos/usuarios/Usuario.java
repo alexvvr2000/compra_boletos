@@ -11,25 +11,21 @@ class Usuario implements ObjetoBase {
     Connection conexionBase;
     boolean estaEliminado = false;
     boolean sesionCerrada = false;
-    Usuario (Connection conexion, String correo, String claveAcceso) {
-        try{
-            PreparedStatement query = conexion.prepareStatement(
-                    "select idusuario ,nombre, apellidopaterno, apellidomaterno " +
-                            "from usuario " +
-                            "where claveiniciosesion = ? and correo = ?;"
-            );
-            query.setString(1, claveAcceso);
-            query.setString(2, correo);
-            ResultSet resultado = query.executeQuery();
-            resultado.next();
-            this.correo = correo;
-            this.nombre = resultado.getString("nombre");
-            this.apellidoPaterno = resultado.getString("apellidopaterno");
-            this.apellidoMaterno = resultado.getString("apellidomaterno");
-            this.idUsuario = resultado.getInt("idusuario");
-        } catch(Exception e) {
-            System.out.println(e.getMessage());
-        }
+    Usuario (Connection conexion, String correo, String claveAcceso) throws SQLException{
+        PreparedStatement query = conexion.prepareStatement(
+                "select idusuario ,nombre, apellidopaterno, apellidomaterno " +
+                        "from usuario " +
+                        "where claveiniciosesion = ? and correo = ?;"
+        );
+        query.setString(1, claveAcceso);
+        query.setString(2, correo);
+        ResultSet resultado = query.executeQuery();
+        resultado.next();
+        this.correo = correo;
+        this.nombre = resultado.getString("nombre");
+        this.apellidoPaterno = resultado.getString("apellidopaterno");
+        this.apellidoMaterno = resultado.getString("apellidomaterno");
+        this.idUsuario = resultado.getInt("idusuario");
     }
     protected Usuario (Connection conexion) {
         this.conexionBase = conexion;
