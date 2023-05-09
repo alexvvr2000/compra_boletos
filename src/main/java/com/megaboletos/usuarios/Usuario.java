@@ -31,7 +31,9 @@ class Usuario implements ObjetoBase {
             System.out.println(e.getMessage());
         }
     }
-    protected Usuario (Connection conexion) {}
+    protected Usuario (Connection conexion) {
+        this.conexionBase = conexion;
+    }
     @Override
     public boolean actualizarDatos(JSONObject datos) {
         return false;
