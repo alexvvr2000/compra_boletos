@@ -49,5 +49,5 @@ create table compras (
 	idUsuario integer references Usuario(idUsuario) on delete cascade,
 	idEvento integer references Evento(idEvento) on delete cascade,
 	idMetodoPago integer references MetodoPago(idMetodoPago) on delete cascade,
-	asientosComprados varchar(10)[]
+	asientosComprados JSON
 );
