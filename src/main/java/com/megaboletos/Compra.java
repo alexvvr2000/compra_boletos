@@ -9,7 +9,7 @@ public class Compra {
     private int idCliente = 0;
     private int idEvento = 0;
     private int idCompra = 0;
-    private  int precioFinal = 0;
+    private int precioFinal = 0;
     private Connection conexion = null;
     final Map<String, Integer> asientos = new HashMap<String, Integer>();
     public Compra(Connection conexion,int idCompra) {

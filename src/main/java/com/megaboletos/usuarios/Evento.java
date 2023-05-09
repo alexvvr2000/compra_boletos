@@ -70,4 +70,8 @@ public class Evento {
         Map<String, Object> filas = this.asientosDisponibles(fila);
         return (boolean)filas.get(Integer.toString(asiento));
     }
+    public int precioAsiento(String fila) throws Exception{
+        Map<String, Object> filas = this.asientosDisponibles(fila);
+        return (int)filas.get("precio");
+    }
 }
