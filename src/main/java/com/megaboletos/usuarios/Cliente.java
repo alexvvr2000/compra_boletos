@@ -1,6 +1,11 @@
 package com.megaboletos.usuarios;
+import com.megaboletos.ObjetoBase;
+import org.json.JSONObject;
+
 import java.sql.Connection;
-public class Cliente extends Usuario{
+import java.sql.SQLException;
+
+public class Cliente extends Usuario implements ObjetoBase {
     private Cliente(final Builder instancia){
         super(instancia.conexion);
         this.nombre = instancia.nombre;
@@ -9,8 +14,16 @@ public class Cliente extends Usuario{
         this.correo = instancia.correo;
         this.conexionBase = instancia.conexion;
     }
-    public Cliente(Connection connection, String correo, String claveAcceso) {
+    public Cliente(Connection connection, String correo, String claveAcceso) throws SQLException {
         super(connection, correo, claveAcceso);
+    }
+    @Override
+    public boolean actualizarDatos(JSONObject datos) throws SQLException {
+        return false;
+    }
+    @Override
+    public boolean baja() throws SQLException {
+        return false;
     }
     public static class Builder {
         private String nombre;

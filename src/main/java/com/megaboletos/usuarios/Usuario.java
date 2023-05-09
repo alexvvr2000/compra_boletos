@@ -1,7 +1,5 @@
 package com.megaboletos.usuarios;
 import java.sql.*;
-import com.megaboletos.ObjetoBase;
-import org.json.JSONObject;
 class Usuario {
     String nombre = "";
     String apellidoPaterno = "";
