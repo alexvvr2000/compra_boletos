@@ -34,7 +34,7 @@ values ('Evento', 'Arena monterrey', now());
 insert into capacidad(idevento, filasocupadas)
 values (
 	1, 
-	'{"filaA": {"1":true,"2":true,"3":true,"precio": 200}, "filaB":{"1":false,"2":true,"3":true, "precio": 500}}'
+	'{"A": {"1":true,"2":true,"3":true,"precio": 200}, "B":{"1":false,"2":true,"3":true, "precio": 500}}'
 );
 select * from capacidad;
 create table MetodoPago (
