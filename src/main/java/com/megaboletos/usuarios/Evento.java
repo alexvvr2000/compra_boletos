@@ -33,4 +33,7 @@ public class Evento {
     public JSONObject asientosDisponibles() throws Exception {
         return new JSONObject();
     }
+    public static boolean existeEvento(int idEvento) throws Exception {
+        return true;
+    }
 }
