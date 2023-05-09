@@ -10,7 +10,6 @@ public class Evento {
     private String lugar;
     private Date fecha;
     private LocalTime hora;
-    private boolean estaCancelado;
     private Connection conexion;
     public Evento(Connection conexion,int idEvento){
         this.conexion = conexion;
