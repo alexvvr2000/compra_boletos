@@ -1,10 +1,8 @@
 package com.megaboletos;
-import com.megaboletos.pagos.MetodoPago;
 import com.megaboletos.usuarios.ClassBuilder;
 import com.megaboletos.usuarios.Cliente;
 import java.sql.Connection;
 import java.util.*;
-
 public class Compra {
     private int idCliente = 0;
     private int idEvento = 0;
@@ -16,7 +14,7 @@ public class Compra {
         this.idCompra = idCompra;
         this.conexion = conexion;
     }
-    private Compra(Cliente clientePorComprar, Builder nuevaCompra, MetodoPago metodoPago) {
+    private Compra(Cliente clientePorComprar, Builder nuevaCompra, int idMetodoPago) {
 
     }
     public int getIdCliente() {
@@ -27,6 +25,9 @@ public class Compra {
     }
     public int getIdCompra() {
         return this.idCompra;
+    }
+    public int getIdMetodoPago() {
+        return this.getIdMetodoPago();
     }
     public int getPrecioFinal() {
         return this.precioFinal;
@@ -41,7 +42,7 @@ public class Compra {
         private Cliente clientePorComprar = null;
         private int idEvento = 0;
         private Map<String, Integer> asientos = new HashMap<String, Integer>();
-        private MetodoPago metodoPago = null;
+        private int idMetodoPago = 0;
         public Builder(Cliente clientePorComprar) {
             this.clientePorComprar = clientePorComprar;
         }
@@ -49,13 +50,13 @@ public class Compra {
             this.idEvento = idEvento;
             return this;
         }
-        public Builder agregarMetodoPago(String numeroTarjeta, String fecha){
-            this.metodoPago = metodoPago;
+        public Builder agregarMetodoPago(int idMetodoPago){
+            this.idMetodoPago = idMetodoPago;
             return this;
         }
         @Override
         public Compra crear() throws Exception{
-            return new Compra(this.clientePorComprar, this, this.metodoPago);
+            return new Compra(this.clientePorComprar, this, this.idEvento);
         }
         @Override
         public boolean camposValidos() {
