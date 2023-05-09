@@ -35,10 +35,7 @@ create table MetodoPago (
 );
 create table capacidad (
 	idEvento integer primary key references Evento(idEvento) on delete cascade,
-	filaA json,
-	filaB json,
-	filaC json,
-	filaD json,
+	filasOcupadas json,
 	precioAsiento money
 );
 create table compras (

@@ -11,7 +11,7 @@ public class Evento {
     private Date fecha;
     private LocalTime hora;
     private Connection conexion;
-    public Evento(Connection conexion,int idEvento){
+    public Evento(Connection conexion,int idEvento) throws Exception {
         this.conexion = conexion;
     }
     public String getNombre() {
