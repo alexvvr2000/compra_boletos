@@ -1,4 +1,4 @@
-package com.megaboletos.interfaz;
+package com.megaboletos;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
