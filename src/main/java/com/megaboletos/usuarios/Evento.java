@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import java.sql.Connection;
 import java.time.LocalTime;
 import java.util.Date;
-public class Evento implements ObjetoBase {
+public class Evento {
     private String nombre;
     private String lugar;
     private Date fecha;
@@ -33,17 +33,6 @@ public class Evento implements ObjetoBase {
     public LocalTime getHora() {
         return hora;
     }
-
-    @Override
-    public boolean actualizarDatos(JSONObject datos) throws Exception {
-        return false;
-    }
-
-    @Override
-    public boolean baja() throws Exception {
-        return false;
-    }
-
     public static class Builder implements ClassBuilder<Evento> {
         private String nombre;
         private String lugar;
@@ -69,7 +58,6 @@ public class Evento implements ObjetoBase {
         public Evento crear() {
             return new Evento(this);
         }
-
         @Override
         public boolean camposValidos() {
             return false;
