@@ -11,10 +11,12 @@ create table Usuario (
 		apellidoMaterno varchar(30),
 		correo varchar(30),
 		claveInicioSesion varchar(30),
-		esAdmin bool default FALSE,
-		estaBaneado bool default FALSE
+		esAdmin bool default FALSE
 );
-
+insert into usuario (nombre, apellidoPaterno, apellidoMaterno, correo, claveInicioSesion, esAdmin)
+values 
+	('Erika', 'Cuevas', 'Lucio', 'erika12@hotmail.com', '234', false),
+	('Alejandro', 'Valenzuela', 'Rivera', 'ale@gmail.com', '12345', true);
 create table Evento (
 	idEvento serial primary key,
 	nombre varchar(30),
