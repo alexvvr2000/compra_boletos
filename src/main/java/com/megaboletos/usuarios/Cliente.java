@@ -66,8 +66,14 @@ public class Cliente extends Usuario implements ObjetoBase {
         return camposAfectados == 1;
     }
     @Override
-    public boolean baja() throws SQLException {
-        return true;
+    public boolean baja() throws Exception {
+        PreparedStatement query = this.conexionBase.prepareStatement(
+                "delete from usuario where idusuario = ?;"
+        );
+        query.setInt(1, this.idUsuario);
+        int camposAfectados = query.executeUpdate();
+        conexionBase.commit();
+        return camposAfectados == 1;
     }
     public static class Builder {
         private String nombre;
