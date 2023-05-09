@@ -31,12 +31,6 @@ class Usuario implements ObjetoBase {
         }
     }
     protected Usuario (Connection conexion) {}
-    public static boolean esAdmin(Connection conexion, int idUsuario) throws Exception {
-        return true;
-    }
-    public static boolean existeUsuario(Connection conexion, int idUsuario) throws Exception {
-        return true;
-    }
     @Override
     public boolean actualizarDatos(JSONObject datos) {
         return false;
