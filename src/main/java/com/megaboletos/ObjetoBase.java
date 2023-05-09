@@ -1,4 +1,4 @@
-package com.megaboletos.usuarios;
+package com.megaboletos;
 import org.json.JSONObject;
 public interface ObjetoBase {
     public boolean sincronizarConBase();

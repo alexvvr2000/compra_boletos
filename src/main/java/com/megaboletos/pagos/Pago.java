@@ -1,6 +1,6 @@
-package com.megaboletos.usuarios;
-import com.megaboletos.usuarios.MetodoPago;
-import com.megaboletos.usuarios.builders.Cliente;
+package com.megaboletos.pagos;
+
+import com.megaboletos.usuarios.Cliente;
 
 class Visa implements MetodoPago {
     Visa(Cliente clienteAComprar) {

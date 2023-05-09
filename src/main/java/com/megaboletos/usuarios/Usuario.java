@@ -1,7 +1,7 @@
-package com.megaboletos.usuarios.builders;
+package com.megaboletos.usuarios;
 import java.sql.*;
 
-import com.megaboletos.usuarios.ObjetoBase;
+import com.megaboletos.ObjetoBase;
 import org.json.JSONObject;
 class Usuario implements ObjetoBase {
     String nombre;

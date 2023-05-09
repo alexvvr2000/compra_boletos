@@ -1,4 +1,4 @@
-package com.megaboletos.usuarios.builders;
+package com.megaboletos.usuarios;
 import java.sql.Connection;
 import java.time.LocalTime;
 import java.util.Date;

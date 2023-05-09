@@ -1,4 +1,4 @@
-package com.megaboletos.usuarios.builders;
+package com.megaboletos.usuarios;
 import java.sql.Connection;
 public class Cliente extends Usuario{
     private Cliente(final Builder instancia){

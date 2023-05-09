@@ -1,5 +1,6 @@
-package com.megaboletos.usuarios.builders;
-import com.megaboletos.usuarios.MetodoPago;
+package com.megaboletos.usuarios;
+
+import com.megaboletos.pagos.MetodoPago;
 
 import java.sql.Connection;
 import java.util.ArrayList;
