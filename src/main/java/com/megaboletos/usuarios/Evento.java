@@ -3,7 +3,6 @@ import org.json.JSONObject;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.time.LocalTime;
 import java.util.Date;
 public class Evento {
     private String nombre = "";

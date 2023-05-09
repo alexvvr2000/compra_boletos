@@ -3,14 +3,15 @@ import com.megaboletos.pagos.MetodoPago;
 import com.megaboletos.usuarios.ClassBuilder;
 import com.megaboletos.usuarios.Cliente;
 import java.sql.Connection;
-import java.util.ArrayList;
+import java.util.*;
+
 public class Compra {
     private int idCliente = 0;
     private int idEvento = 0;
     private int idCompra = 0;
     private  int precioFinal = 0;
     private Connection conexion = null;
-    final ArrayList<String> asientos = new ArrayList<String>();
+    final Map<String, Integer> asientos = new HashMap<String, Integer>();
     public Compra(Connection conexion,int idCompra) {
         this.idCompra = idCompra;
         this.conexion = conexion;
@@ -30,8 +31,8 @@ public class Compra {
     public int getPrecioFinal() {
         return this.precioFinal;
     }
-    public ArrayList<String> getAsientos() {
-        return this.asientos;
+    public Map<String, Integer> getAsientos() {
+        return Collections.unmodifiableMap(this.asientos);
     }
     public boolean pagar(int CVV, Cliente cliente){
         return true;
@@ -39,7 +40,7 @@ public class Compra {
     public static class Builder implements ClassBuilder<Compra> {
         private Cliente clientePorComprar = null;
         private int idEvento = 0;
-        private ArrayList<String> asientos = new ArrayList<String>();
+        private Map<String, Integer> asientos = new HashMap<String, Integer>();
         private MetodoPago metodoPago = null;
         public Builder(Cliente clientePorComprar) {
             this.clientePorComprar = clientePorComprar;
