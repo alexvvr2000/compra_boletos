@@ -42,7 +42,14 @@ public class Evento {
         return true;
     }
     public JSONObject asientosDisponibles() throws Exception {
-        return new JSONObject();
+        PreparedStatement query = this.conexion.prepareStatement(
+                "select filasocupadas from capacidad where idevento = ?"
+        );
+        query.setInt(1, this.idEvento);
+        ResultSet resultado = query.executeQuery();
+        resultado.next();
+        String jsonAsientos = resultado.getString("filasocupadas");
+        return new JSONObject(jsonAsientos);
     }
     public static boolean existeEvento(Connection conexion, int idEvento) throws Exception {
         PreparedStatement query = conexion.prepareStatement(
