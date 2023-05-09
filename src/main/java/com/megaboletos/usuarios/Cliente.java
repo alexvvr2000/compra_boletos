@@ -99,6 +99,7 @@ public class Cliente extends Usuario implements ObjetoBase {
         }
         @Override
         public Cliente crear() throws Exception{
+            if(!this.camposValidos()) throw new Exception("Campos vacios o formato invalido");
             return new Cliente(this, this.claveAcceso);
         }
         @Override
