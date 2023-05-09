@@ -3,11 +3,11 @@ import java.sql.*;
 import com.megaboletos.ObjetoBase;
 import org.json.JSONObject;
 class Usuario implements ObjetoBase {
-    String nombre;
-    String apellidoPaterno;
-    String apellidoMaterno;
-    String correo;
-    int idUsuario;
+    String nombre = "";
+    String apellidoPaterno = "";
+    String apellidoMaterno = "";
+    String correo = "";
+    int idUsuario = 0;
     Connection conexionBase;
     boolean estaEliminado = false;
     boolean sesionCerrada = false;
