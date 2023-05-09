@@ -18,6 +18,8 @@ public class Cliente extends Usuario implements ObjetoBase {
     };
     private Cliente(final Builder instancia, String claveAcceso) throws Exception{
         super();
+        if (Cliente.existeCorreo(instancia.conexion,instancia.correo))
+            throw new Exception("Ya esta correo en base");
         this.conexionBase = instancia.conexion;
         this.nombre = instancia.nombre;
         this.apellidoPaterno = instancia.apellidoPaterno;
