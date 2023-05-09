@@ -103,7 +103,19 @@ public class Cliente extends Usuario implements ObjetoBase {
         }
         @Override
         public boolean camposValidos() {
-            return false;
+            boolean nombreValido = this.nombre.length() >= 1 && this.nombre.length() <= 30;
+            boolean apellidoPaternoValido = this.apellidoPaterno.length() >= 1 && this.apellidoPaterno.length() <= 30;
+            boolean apellidoMaternoValido = this.apellidoMaterno.length() >= 1 && this.apellidoMaterno.length() <= 30;
+            boolean correoValido = this.correo.length() >= 1 && this.correo.length() <= 30;;
+            boolean claveValida = this.claveAcceso.length() >= 1 && this.claveAcceso.length() <= 30;;
+            boolean conexionValida = this.conexion != null;
+
+            return nombreValido &&
+                    apellidoMaternoValido &&
+                    apellidoPaternoValido &&
+                    correoValido &&
+                    claveValida &&
+                    conexionValida;
         }
     }
     public MetodoPago obtenerMetodoPago(int idMetodoPago) {
