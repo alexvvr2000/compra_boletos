@@ -4,6 +4,6 @@ import org.json.JSONObject;
 import java.sql.SQLException;
 
 public interface ObjetoBase {
-    public boolean actualizarDatos(JSONObject datos) throws SQLException;
-    public boolean baja() throws SQLException;
+    public void actualizarDatos(JSONObject datos) throws Exception;
+    public void baja() throws Exception;
 }
