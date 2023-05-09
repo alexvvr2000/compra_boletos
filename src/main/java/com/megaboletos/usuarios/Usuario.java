@@ -2,7 +2,7 @@ package com.megaboletos.usuarios;
 import java.sql.*;
 import com.megaboletos.ObjetoBase;
 import org.json.JSONObject;
-class Usuario implements ObjetoBase {
+class Usuario {
     String nombre = "";
     String apellidoPaterno = "";
     String apellidoMaterno = "";
@@ -29,10 +29,6 @@ class Usuario implements ObjetoBase {
     }
     protected Usuario (Connection conexion) {
         this.conexionBase = conexion;
-    }
-    @Override
-    public boolean baja() {
-        return false;
     }
     public boolean cerrarSesion() {
         return false;
