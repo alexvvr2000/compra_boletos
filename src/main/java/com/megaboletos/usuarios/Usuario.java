@@ -25,11 +25,11 @@ class Usuario {
         this.apellidoPaterno = resultado.getString("apellidopaterno");
         this.apellidoMaterno = resultado.getString("apellidomaterno");
     }
-    protected Usuario (Connection conexion) {
+    protected Usuario (Connection conexion){
         this.conexionBase = conexion;
     }
-    public boolean cerrarSesion() {
-        return false;
+    public void cerrarSesion() {
+        this.sesionCerrada = true;
     }
     public String getNombre() {
         return this.nombre;
