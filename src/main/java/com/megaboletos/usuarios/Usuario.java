@@ -28,25 +28,45 @@ class Usuario {
     protected Usuario (Connection conexion){
         this.conexionBase = conexion;
     }
-    public void cerrarSesion() {
+    public void cerrarSesion() throws Exception {
+        if (this.sesionCerrada) throw new Exception("Sesion esta cerrada");
+        if (!Administrador.existeUsuario(this.conexionBase, this.idUsuario))
+            throw new Exception("El usuario ya no existe");
         this.sesionCerrada = true;
     }
-    public String getNombre() {
+    public String getNombre() throws Exception{
+        if (this.sesionCerrada) throw new Exception("Sesion esta cerrada");
+        if (!Administrador.existeUsuario(this.conexionBase, this.idUsuario))
+            throw new Exception("El usuario ya no existe");
         return this.nombre;
     }
-    public String getApellidoPaterno() {
+    public String getApellidoPaterno() throws Exception{
+        if (this.sesionCerrada) throw new Exception("Sesion esta cerrada");
+        if (!Administrador.existeUsuario(this.conexionBase, this.idUsuario))
+            throw new Exception("El usuario ya no existe");
         return this.apellidoPaterno;
     }
-    public String getApellidoMaterno() {
+    public String getApellidoMaterno() throws Exception{
+        if (this.sesionCerrada) throw new Exception("Sesion esta cerrada");
+        if (!Administrador.existeUsuario(this.conexionBase, this.idUsuario))
+            throw new Exception("El usuario ya no existe");
         return this.apellidoMaterno;
     }
-    public String getCorreo() {
+    public String getCorreo() throws Exception {
+        if (this.sesionCerrada) throw new Exception("Sesion esta cerrada");
+        if (!Administrador.existeUsuario(this.conexionBase, this.idUsuario))
+            throw new Exception("El usuario ya no existe");
         return this.correo;
     }
-    public int getIdUsuario() {
+    public int getIdUsuario() throws Exception {
+        if (this.sesionCerrada) throw new Exception("Sesion esta cerrada");
+        if (!Administrador.existeUsuario(this.conexionBase, this.idUsuario))
+            throw new Exception("El usuario ya no existe");
         return this.idUsuario;
     }
-    public boolean estaCerradaSesion() {
+    public boolean estaCerradaSesion() throws Exception{
+        if (!Administrador.existeUsuario(this.conexionBase, this.idUsuario))
+            throw new Exception("El usuario ya no existe");
         return this.sesionCerrada;
     }
 }
