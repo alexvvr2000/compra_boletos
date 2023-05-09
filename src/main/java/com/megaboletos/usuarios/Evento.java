@@ -1,8 +1,8 @@
 package com.megaboletos.usuarios;
-import com.megaboletos.ObjetoBase;
 import org.json.JSONObject;
-
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.time.LocalTime;
 import java.util.Date;
 public class Evento {
@@ -36,7 +36,15 @@ public class Evento {
     public JSONObject asientosDisponibles() throws Exception {
         return new JSONObject();
     }
-    public static boolean existeEvento(int idEvento) throws Exception {
-        return true;
+    public static boolean existeEvento(Connection conexion, int idEvento) throws Exception {
+        PreparedStatement query = conexion.prepareStatement(
+                "select exists(" +
+                        "select nombre from cliente where idevento = ?" +
+                        ") as existe;"
+        );
+        query.setInt(1, idEvento);
+        ResultSet conjunto = query.executeQuery();
+        conjunto.next();
+        return conjunto.getBoolean("existe");
     }
 }

@@ -36,8 +36,17 @@ create table MetodoPago (
 create table capacidad (
 	idEvento integer primary key references Evento(idEvento) on delete cascade,
 	filasOcupadas json,
-	precioAsiento money
+	precioAsiento NUMERIC
 );
+insert into evento(nombre, lugar, fecha, hora)
+values ('Evento', 'Arena monterrey', current_date, date_trunc('hour', current_timestamp));
+insert into capacidad(idevento, filasocupadas, precioasiento)
+values (
+	1, 
+	'{"filaA": {"1":true,"2":true,"3":true}, "filaB":{"1":false,"2":true,"3":true}}',
+	300
+);
+select * from capacidad;
 create table compras (
 	idCompras serial primary key,
 	idUsuario integer references Usuario(idUsuario) on delete cascade,
