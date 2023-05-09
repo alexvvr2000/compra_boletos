@@ -30,4 +30,7 @@ public class Evento {
     public boolean eventoCancelado() throws Exception{
         return true;
     }
+    public JSONObject asientosDisponibles() throws Exception {
+        return new JSONObject();
+    }
 }
