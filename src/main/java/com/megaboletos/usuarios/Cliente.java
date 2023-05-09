@@ -22,6 +22,19 @@ public class Cliente extends Usuario implements ObjetoBase {
         this.apellidoPaterno = instancia.apellidoPaterno;
         this.apellidoMaterno = instancia.apellidoMaterno;
         this.correo = instancia.correo;
+        PreparedStatement query = this.conexionBase.prepareStatement(
+                "insert into usuario (nombre, apellidoPaterno, apellidoMaterno, correo, claveInicioSesion, esAdmin) " +
+                        " values " +
+                        " (?, ?, ?, ?, ?, ?);"
+        );
+        query.setString(1, this.nombre);
+        query.setString(2, this.apellidoPaterno);
+        query.setString(3, this.apellidoMaterno);
+        query.setString(4, this.correo);
+        query.setString(5, instancia.claveAcceso);
+        query.setBoolean(6, false);
+        query.executeUpdate();
+        this.conexionBase.commit();
     }
     public Cliente(Connection connection, String correo, String claveAcceso) throws Exception {
         super(connection, correo, claveAcceso);
