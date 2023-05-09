@@ -10,14 +10,8 @@ public class Evento {
     private String lugar;
     private Date fecha;
     private LocalTime hora;
+    private boolean estaCancelado;
     private Connection conexion;
-    private Evento(Builder instancia) {
-        this.nombre = instancia.nombre;
-        this.lugar = instancia.lugar;
-        this.fecha = instancia.fecha;
-        this.hora = instancia.hora;
-        this.conexion = instancia.conexion;
-    }
     public Evento(Connection conexion,int idEvento){
         this.conexion = conexion;
     }
@@ -33,34 +27,7 @@ public class Evento {
     public LocalTime getHora() {
         return hora;
     }
-    public static class Builder implements ClassBuilder<Evento> {
-        private String nombre;
-        private String lugar;
-        private Date fecha;
-        private LocalTime hora;
-        private Connection conexion;
-        public void setNombre(String nombre) {
-            this.nombre = nombre;
-        }
-        public void setLugar(String lugar) {
-            this.lugar = lugar;
-        }
-        public void setFecha(Date fecha) {
-            this.fecha = fecha;
-        }
-        public void setHora(LocalTime hora) {
-            this.hora = hora;
-        }
-        public void setConexion(Connection conexion) {
-            this.conexion = conexion;
-        }
-        @Override
-        public Evento crear() {
-            return new Evento(this);
-        }
-        @Override
-        public boolean camposValidos() {
-            return false;
-        }
+    public boolean eventoCancelado() throws Exception{
+        return true;
     }
 }
