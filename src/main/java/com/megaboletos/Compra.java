@@ -9,8 +9,8 @@ public class Compra {
     private int idCompra = 0;
     private int idMetodoPago = 0;
     private int precioFinal = 0;
-    private Connection conexion = null;
     final Map<String, ArrayList<Integer>> asientosComprados = new HashMap<String, ArrayList<Integer>>();
+    private Connection conexion = null;
     private Compra(Cliente clientePorComprar, Builder nuevaCompra, int idMetodoPago) {
 
     }
