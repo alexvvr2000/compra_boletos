@@ -41,7 +41,13 @@ public class Evento {
         return this.idEvento;
     }
     public boolean eventoCancelado() throws Exception{
-        return true;
+        PreparedStatement query = this.conexion.prepareStatement(
+            "select estacancelado from evento where idevento = ?;"
+        );
+        query.setInt(1, this.idEvento);
+        ResultSet resultado = query.executeQuery();
+        resultado.next();
+        return resultado.getBoolean("estacancelado");
     }
     public Map<String, Object> asientosDisponibles(String fila) throws Exception {
         PreparedStatement query = this.conexion.prepareStatement(
