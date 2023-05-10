@@ -56,7 +56,15 @@ public class Compra {
             this.idMetodoPago = idMetodoPago;
             return this;
         }
-        public Builder agregarAsiento(String fila, int asiento) {
+        public Builder agregarAsiento(String fila, int asiento) throws Exception{
+            Evento eventoAgregado = new Evento(this.conexion, this.idEvento);
+            if(eventoAgregado.eventoCancelado()) throw new Exception("Evento cancelado");
+            if(!eventoAgregado.estaDisponible(fila, asiento)) throw new Exception("Asiento tomado");
+            if(!this.asientos.containsKey(fila)) {
+                this.asientos.put(fila, new ArrayList<Integer>());
+            }
+            this.asientos.get(fila).add(Integer.valueOf(asiento));
+            this.precioFinal += eventoAgregado.precioAsiento(fila);
             return this;
         }
         @Override
@@ -75,12 +83,6 @@ public class Compra {
                 idMetodoPagoAgregado &&
                 asientosValidos &&
                 precioFinalCalculado;
-        }
-        private boolean pagarAsientos() {
-            return true;
-        }
-        private int calcularPrecioFinal(){
-            return 0;
         }
     }
 }
