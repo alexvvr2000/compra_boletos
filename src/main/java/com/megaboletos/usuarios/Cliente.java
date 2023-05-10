@@ -1,14 +1,16 @@
 package com.megaboletos.usuarios;
 import com.megaboletos.ObjetoBase;
-import com.megaboletos.pagos.MetodoPago;
 import org.json.JSONObject;
-import java.lang.reflect.Field;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 public class Cliente extends Usuario implements ObjetoBase {
+    public static String[] tipoCuenta = {
+            "visa",
+            "mastercard"
+    };
     private final String[] campos = {
             "nombre",
             "apellidoPaterno",
@@ -161,5 +163,18 @@ public class Cliente extends Usuario implements ObjetoBase {
     }
     public boolean eliminarMetodoPago(int idMetodoPago) {
         return false;
+    }
+    public int agregarMetodoPago(String cuenta, String fechaVencimiento, String tipoCuenta) throws Exception{
+        PreparedStatement query = this.conexionBase.prepareStatement(
+                "insert into MetodoPago (idUsuario, cuenta, fechaVencimiento, tipoCuenta)" +
+                " values(?, ?, ?, cast(? as multinacional)) returning idmetodopago;"
+        );
+        query.setInt(1, this.idUsuario);
+        query.setString(2, cuenta);
+        query.setString(3, fechaVencimiento);
+        query.setString(4, tipoCuenta);
+        ResultSet resultado = query.executeQuery();
+        resultado.next();
+        return resultado.getInt("idmetodopago");
     }
 }

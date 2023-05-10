@@ -40,10 +40,15 @@ select * from capacidad;
 create table MetodoPago (
 	idMetodoPago serial primary key,
 	idUsuario integer references Usuario(idUsuario) on delete cascade,
-	cuenta integer unique,
+	cuenta varchar(30) unique,
 	fechaVencimiento char(5),
 	tipoCuenta multinacional
 );
+insert into MetodoPago (idUsuario, cuenta, fechaVencimiento, tipoCuenta)
+values(1, '2144563542432', '02/29', 'visa');
+insert into MetodoPago (idUsuario, cuenta, fechaVencimiento, tipoCuenta)
+values(1, '3242343213213', '02/29', 'mastercard');
+select * from usuario;
 create table compras (
 	idCompras serial primary key,
 	idUsuario integer references Usuario(idUsuario) on delete cascade,
