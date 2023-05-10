@@ -15,7 +15,7 @@ public class Compra {
     private int precioFinal = 0;
     final Map<String, ArrayList<Integer>> asientosComprados = new HashMap<String, ArrayList<Integer>>();
     private Connection conexion = null;
-    private Compra(Builder nuevaCompra, int CVV) {
+    private Compra(Builder nuevaCompra) {
 
     }
     public int getIdCliente() {
@@ -69,10 +69,11 @@ public class Compra {
             this.precioFinal += eventoAgregado.precioAsiento(fila);
             return this;
         }
-        public Compra crear(int CVV) throws Exception{
+        @Override
+        public Compra crear() throws Exception{
             if(!this.camposValidos()) throw new Exception("Campos faltantes o sin formato");
             Map<String, String> metodoPago = this.clientePorComprar.obtenerMetodoPago(this.idMetodoPago);
-            return new Compra(this, CVV);
+            return new Compra(this);
         }
         @Override
         public boolean camposValidos() {
@@ -86,5 +87,11 @@ public class Compra {
                 asientosValidos &&
                 precioFinalCalculado;
         }
+    }
+    public boolean pagar(int CVV) throws Exception{
+        return true;
+    }
+    public static boolean estaPagado(Cliente cliente, int idCompra) throws Exception{
+        return true;
     }
 }
