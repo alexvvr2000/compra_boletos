@@ -5,6 +5,7 @@ import com.megaboletos.usuarios.ClassBuilder;
 import com.megaboletos.usuarios.Cliente;
 import com.megaboletos.usuarios.Evento;
 
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,7 +16,8 @@ public class Compra {
     private int idCompra = 0;
     private int idMetodoPago = 0;
     private int precioFinal = 0;
-    final Map<String, ArrayList<Integer>> asientosComprados = new HashMap<String, ArrayList<Integer>>();
+    private boolean pagado = false;
+    List<String> asientosComprados = new ArrayList<String>();
     private Connection conexion = null;
     private Compra(Builder nuevaCompra) throws Exception {
         PreparedStatement query = nuevaCompra.conexion.prepareStatement(
@@ -34,6 +36,30 @@ public class Compra {
         this.idMetodoPago = nuevaCompra.idMetodoPago;
         this.precioFinal = nuevaCompra.precioFinal;
         this.idCliente = resultado.getInt("idCompras");
+        this.pagado = false;
+    }
+    public Compra(Connection conexion, Cliente clienteUsado, int idCompra) throws Exception{
+        PreparedStatement query = conexion.prepareStatement(
+            "select " +
+                "idcompras, idusuario, idevento, idmetodopago, " +
+                "asientoscomprados, preciofinal, pagado " +
+            "from compra " +
+            "where idcompras = ?;"
+        );
+        query.setInt(1, idCompra);
+        ResultSet resultado = query.executeQuery();
+        resultado.next();
+        this.idCompra = resultado.getInt("idcompras");
+        this.idCliente = clienteUsado.getIdUsuario();
+        this.idEvento = resultado.getInt("idevento");
+        this.idMetodoPago = resultado.getInt("idmetodopago");
+        Array arregloValores = resultado.getArray("asientoscomprados");
+        this.precioFinal = resultado.getInt("preciofinal");
+        this.pagado = resultado.getBoolean("pagado");
+        boolean errorAgregando = Collections.addAll(
+                this.asientosComprados, (String[])arregloValores.getArray()
+        );
+        if(errorAgregando) throw new Exception("No se pudo obtener boletos comprados de base");
     }
     public int getIdCliente() {
         return this.idCliente;
@@ -50,8 +76,11 @@ public class Compra {
     public int getPrecioFinal() {
         return this.precioFinal;
     }
-    public Map<String, ArrayList<Integer>> getAsientos() {
-        return this.asientosComprados;
+    public List<String> getAsientos() {
+        return Collections.unmodifiableList(this.asientosComprados);
+    }
+    public boolean estoPagado() {
+        return this.pagado;
     }
     public static class Builder implements ClassBuilder<Compra> {
         private Cliente clientePorComprar = null;
