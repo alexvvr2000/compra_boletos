@@ -159,6 +159,7 @@ public class Cliente extends Usuario implements ObjetoBase {
         return conjunto.getBoolean("existe");
     }
     public boolean modificarMetodoPago(int idMetodoPago, JSONObject datos) throws Exception{
+        if(!this.tieneMetodoPago(idMetodoPago)) throw new Exception("No existe metodo pago");
         String[] campos = {"cuenta", "fechaVencimiento", "tipoCuenta"};
         ArrayList<String> valorUpdate = new ArrayList<String>();
         for(String campo: campos) {
@@ -182,6 +183,7 @@ public class Cliente extends Usuario implements ObjetoBase {
         return camposAfectados == 1;
     }
     public boolean eliminarMetodoPago(int idMetodoPago) throws Exception {
+        if(!this.tieneMetodoPago(idMetodoPago)) throw new Exception("No existe metodo pago");
         return true;
     }
     public int agregarMetodoPago(String cuenta, String fechaVencimiento, String tipoCuenta) throws Exception{
