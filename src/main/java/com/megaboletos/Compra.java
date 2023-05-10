@@ -61,7 +61,7 @@ public class Compra {
         }
         @Override
         public Compra crear() throws Exception{
-            return new Compra();
+            return new Compra(this);
         }
         @Override
         public boolean camposValidos() {
