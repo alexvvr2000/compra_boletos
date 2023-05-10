@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
-
 public class Evento {
     private String nombre = "";
     private String lugar = "";
@@ -88,5 +87,22 @@ public class Evento {
         ResultSet conjunto = query.executeQuery();
         conjunto.next();
         return new Integer(conjunto.getInt("precio"));
+    }
+    public boolean existeAsiento (String fila, int asiento) throws Exception{
+        PreparedStatement query = conexion.prepareStatement(
+                "select " +
+                        "(filasDisponibles -> ? -> 'precio')::numeric is not null " +
+                        "and " +
+                        "(filasDisponibles -> ? -> ?) is not null " +
+                        "as existeAsiento " +
+                "from capacidad where idEvento = ?;"
+        );
+        query.setString(1, fila);
+        query.setString(2, fila);
+        query.setInt(3, asiento);
+        query.setInt(4, this.idEvento);
+        ResultSet conjunto = query.executeQuery();
+        conjunto.next();
+        return conjunto.getBoolean("existeAsiento");
     }
 }
