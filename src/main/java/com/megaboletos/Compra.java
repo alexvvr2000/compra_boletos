@@ -13,7 +13,6 @@ public class Compra {
     private int idCompra = 0;
     private int idMetodoPago = 0;
     private int precioFinal = 0;
-    private boolean pagado = false;
     List<String> asientos = new ArrayList<String>();
     private Connection conexion = null;
     private Compra(Builder nuevaCompra) throws Exception {
@@ -34,14 +33,13 @@ public class Compra {
         this.idMetodoPago = nuevaCompra.idMetodoPago;
         this.precioFinal = nuevaCompra.precioFinal;
         this.idCliente = resultado.getInt("idCompras");
-        this.pagado = false;
     }
     public Compra(Connection conexion, Cliente clienteUsado, int idCompra) throws Exception{
         if(!clienteUsado.existeCompra(idCompra)) throw new Exception("Compra no existe en base");
         PreparedStatement query = conexion.prepareStatement(
             "select " +
                 "idcompras, idusuario, idevento, idmetodopago, " +
-                "asientoscomprados, preciofinal, pagado " +
+                "asientoscomprados, preciofinal " +
             "from compra " +
             "where idcompras = ?;"
         );
@@ -54,7 +52,6 @@ public class Compra {
         this.idMetodoPago = resultado.getInt("idmetodopago");
         Array arregloValores = resultado.getArray("asientoscomprados");
         this.precioFinal = resultado.getInt("preciofinal");
-        this.pagado = resultado.getBoolean("pagado");
         boolean errorAgregando = Collections.addAll(
                 this.asientos, (String[])arregloValores.getArray()
         );
@@ -77,9 +74,6 @@ public class Compra {
     }
     public List<String> getAsientos() {
         return Collections.unmodifiableList(this.asientos);
-    }
-    public boolean estoPagado() {
-        return this.pagado;
     }
     public static class Builder implements ClassBuilder<Compra> {
         private Cliente clientePorComprar;
