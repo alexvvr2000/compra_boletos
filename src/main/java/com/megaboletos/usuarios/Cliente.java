@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
 public class Cliente extends Usuario implements ObjetoBase {
     public static String[] tipoCuenta = {
             "visa",

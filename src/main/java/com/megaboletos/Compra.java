@@ -1,10 +1,7 @@
 package com.megaboletos;
-import com.megaboletos.pagos.MetodoPago;
-import com.megaboletos.pagos.PagoVisa;
 import com.megaboletos.usuarios.ClassBuilder;
 import com.megaboletos.usuarios.Cliente;
 import com.megaboletos.usuarios.Evento;
-
 import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,7 +14,7 @@ public class Compra {
     private int idMetodoPago = 0;
     private int precioFinal = 0;
     private boolean pagado = false;
-    List<String> asientosComprados = new ArrayList<String>();
+    List<String> asientos = new ArrayList<String>();
     private Connection conexion = null;
     private Compra(Builder nuevaCompra) throws Exception {
         PreparedStatement query = nuevaCompra.conexion.prepareStatement(
@@ -59,7 +56,7 @@ public class Compra {
         this.precioFinal = resultado.getInt("preciofinal");
         this.pagado = resultado.getBoolean("pagado");
         boolean errorAgregando = Collections.addAll(
-                this.asientosComprados, (String[])arregloValores.getArray()
+                this.asientos, (String[])arregloValores.getArray()
         );
         if(errorAgregando) throw new Exception("No se pudo obtener boletos comprados de base");
     }
@@ -79,7 +76,7 @@ public class Compra {
         return this.precioFinal;
     }
     public List<String> getAsientos() {
-        return Collections.unmodifiableList(this.asientosComprados);
+        return Collections.unmodifiableList(this.asientos);
     }
     public boolean estoPagado() {
         return this.pagado;
@@ -90,7 +87,6 @@ public class Compra {
         private int idMetodoPago = 0;
         private int precioFinal = 0;
         private Connection conexion = null;
-        private Map<String, ArrayList<Integer>> asientos = new HashMap<String, ArrayList<Integer>>();
         public Builder(Connection conexion, Cliente clientePorComprar) throws Exception{
             if(clientePorComprar.estaCerradaSesion()) throw new Exception("Sesion cerrada");
             this.conexion = conexion;
@@ -105,19 +101,6 @@ public class Compra {
             if(!this.clientePorComprar.tieneMetodoPago(idMetodoPago))
                 throw new Exception("Metodo de pago no existe");
             this.idMetodoPago = idMetodoPago;
-            return this;
-        }
-        public Builder agregarAsiento(String fila, int asiento) throws Exception{
-            Evento eventoAgregado = new Evento(this.conexion, this.idEvento);
-            if(!eventoAgregado.existeAsiento(fila, asiento))
-                throw new Exception("No esta registrado " + fila + asiento + " en base");
-            if(eventoAgregado.eventoCancelado()) throw new Exception("Evento cancelado");
-            if(!eventoAgregado.estaDisponible(fila, asiento)) throw new Exception("Asiento tomado");
-            if(!this.asientos.containsKey(fila)) {
-                this.asientos.put(fila, new ArrayList<Integer>());
-            }
-            this.asientos.get(fila).add(Integer.valueOf(asiento));
-            this.precioFinal += eventoAgregado.precioAsiento(fila);
             return this;
         }
         @Override
@@ -138,6 +121,9 @@ public class Compra {
         return true;
     }
     public static boolean estaPagado(Cliente cliente, int idCompra) throws Exception{
+        return true;
+    }
+    public boolean agregarAsiento(String fila, int asiento) throws Exception{
         return true;
     }
 }
