@@ -46,7 +46,7 @@ public class Compra {
             this.clientePorComprar = clientePorComprar;
         }
         public Builder agregarEvento(int idEvento) throws Exception{
-            if(!Evento.existeEvento(this.clientePorComprar., idEvento)) throw new Exception("Evento no existe");
+            if(!Evento.existeEvento(this.conexion, idEvento)) throw new Exception("Evento no existe");
             this.idEvento = idEvento;
             return this;
         }
