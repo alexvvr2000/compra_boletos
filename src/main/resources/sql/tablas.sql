@@ -58,3 +58,6 @@ create table compra (
 	precioFinal numeric,
 	pagado boolean default false
 );
+insert into 
+	compra (idusuario, idevento, idmetodopago)
+values (1,1,1);
