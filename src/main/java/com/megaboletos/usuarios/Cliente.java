@@ -181,8 +181,8 @@ public class Cliente extends Usuario implements ObjetoBase {
         this.conexionBase.commit();
         return camposAfectados == 1;
     }
-    public boolean eliminarMetodoPago(int idMetodoPago) {
-        return false;
+    public boolean eliminarMetodoPago(int idMetodoPago) throws Exception {
+        return true;
     }
     public int agregarMetodoPago(String cuenta, String fechaVencimiento, String tipoCuenta) throws Exception{
         PreparedStatement query = this.conexionBase.prepareStatement(
@@ -195,7 +195,22 @@ public class Cliente extends Usuario implements ObjetoBase {
         query.setString(4, tipoCuenta);
         ResultSet resultado = query.executeQuery();
         resultado.next();
+        this.conexionBase.commit();
         return resultado.getInt("idmetodopago");
-
+    }
+    private boolean tieneMetodoPago(int idMetodoPago) throws Exception{
+        PreparedStatement query = this.conexionBase.prepareStatement(
+            "select exists ( select " +
+                " metodopago.idmetodopago " +
+                " from metodopago " +
+                " inner join usuario on metodopago.idusuario = usuario.idusuario" +
+                " where metodopago.idmetodopago = ? and usuario.idusuario = ? " +
+           ") as existemetodo;"
+        );
+        query.setInt(1, idMetodoPago);
+        query.setInt(2, this.idUsuario);
+        ResultSet resultado = query.executeQuery();
+        resultado.next();
+        return resultado.getBoolean("existemetodo");
     }
 }
