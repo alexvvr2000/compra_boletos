@@ -96,6 +96,7 @@ public class Cliente extends Usuario implements ObjetoBase {
         query.setInt(1, this.idUsuario);
         int camposAfectados = query.executeUpdate();
         conexionBase.commit();
+        this.sesionCerrada = true;
         return camposAfectados == 1;
     }
     public static class Builder implements ClassBuilder<Cliente> {

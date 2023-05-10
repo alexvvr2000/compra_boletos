@@ -25,11 +25,12 @@ public class Compra {
             "compra (idusuario, idevento, idmetodopago) " +
             "values (?,?,?) returning idCompras;"
         );
-        query.setInt(1, this.idCliente);
-        query.setInt(2, this.idEvento);
-        query.setInt(3, this.idMetodoPago);
+        query.setInt(1, nuevaCompra.clientePorComprar.getIdUsuario());
+        query.setInt(2, nuevaCompra.idEvento);
+        query.setInt(3, nuevaCompra.idMetodoPago);
         ResultSet resultado = query.executeQuery();
         resultado.next();
+        nuevaCompra.conexion.commit();
         this.conexion = nuevaCompra.conexion;
         this.idCliente = nuevaCompra.clientePorComprar.getIdUsuario();
         this.idEvento = nuevaCompra.idEvento;
@@ -84,13 +85,14 @@ public class Compra {
         return this.pagado;
     }
     public static class Builder implements ClassBuilder<Compra> {
-        private Cliente clientePorComprar = null;
+        private Cliente clientePorComprar;
         private int idEvento = 0;
         private int idMetodoPago = 0;
         private int precioFinal = 0;
         private Connection conexion = null;
         private Map<String, ArrayList<Integer>> asientos = new HashMap<String, ArrayList<Integer>>();
-        public Builder(Connection conexion, Cliente clientePorComprar) {
+        public Builder(Connection conexion, Cliente clientePorComprar) throws Exception{
+            if(clientePorComprar.estaCerradaSesion()) throw new Exception("Sesion cerrada");
             this.conexion = conexion;
             this.clientePorComprar = clientePorComprar;
         }
@@ -127,13 +129,9 @@ public class Compra {
         public boolean camposValidos() {
             boolean idEventoAgregado = this.idEvento != 0;
             boolean idMetodoPagoAgregado = this.idMetodoPago != 0;
-            boolean asientosValidos = !this.asientos.isEmpty();
-            boolean precioFinalCalculado = this.precioFinal != 0;
             return
                 idEventoAgregado &&
-                idMetodoPagoAgregado &&
-                asientosValidos &&
-                precioFinalCalculado;
+                idMetodoPagoAgregado;
         }
     }
     public boolean pagar(int CVV) throws Exception{
