@@ -69,7 +69,7 @@ begin
 		jsonb_set(
 			filasDisponibles,
 			array[fila],
-			filasDisponibles -> 'A' #- array['1'] || ('{"' || '1' || '":false}')::jsonb
+			filasDisponibles -> fila #- array[asiento] || ('{"' || asiento || '":false}')::jsonb
 		)
 	where idEvento = idEventoRequerido;
 end;
