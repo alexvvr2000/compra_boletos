@@ -49,6 +49,7 @@ public class Evento {
         return resultado.getBoolean("estacancelado");
     }
     public Map<String, Object> asientosFila(String fila) throws Exception {
+        if(!this.existeFila(fila)) throw new Exception("Fila no existe");
         PreparedStatement query = this.conexion.prepareStatement(
                 "select filasdisponibles from capacidad where idevento = ?"
         );
@@ -104,5 +105,18 @@ public class Evento {
         ResultSet conjunto = query.executeQuery();
         conjunto.next();
         return conjunto.getBoolean("existeAsiento");
+    }
+    public boolean existeFila (String fila) throws Exception{
+        PreparedStatement query = conexion.prepareStatement(
+                "select " +
+                        "(filasDisponibles -> ? -> 'precio')::numeric is not null " +
+                        " as existeFila " +
+                        "from capacidad where idEvento = ?;"
+        );
+        query.setString(1, fila);
+        query.setInt(2,this.idEvento);
+        ResultSet conjunto = query.executeQuery();
+        conjunto.next();
+        return conjunto.getBoolean("existeFila");
     }
 }
