@@ -64,9 +64,9 @@ public class Evento {
     }
     public static boolean existeEvento(Connection conexion, int idEvento) throws Exception {
         PreparedStatement query = conexion.prepareStatement(
-                "select exists(" +
-                        "select nombre from evento where idevento = ?" +
-                        ") as existe;"
+            "select exists(" +
+                "select nombre from evento where idevento = ?" +
+            ") as existe;"
         );
         query.setInt(1, idEvento);
         ResultSet conjunto = query.executeQuery();
@@ -77,8 +77,16 @@ public class Evento {
         Map<String, Object> filas = this.asientosFila(fila);
         return (boolean)filas.get(Integer.toString(asiento));
     }
-    public int precioAsiento(String fila) throws Exception{
-        Map<String, Object> filas = this.asientosFila(fila);
-        return (int)filas.get("precio");
+    public Integer precioAsiento(String fila) throws Exception{
+        PreparedStatement query = conexion.prepareStatement(
+            "select " +
+                "(filasDisponibles -> ? -> 'precio')::numeric as precio " +
+            "from capacidad where idEvento = ?;"
+        );
+        query.setString(1, fila);
+        query.setInt(2, this.idEvento);
+        ResultSet conjunto = query.executeQuery();
+        conjunto.next();
+        return new Integer(conjunto.getInt("precio"));
     }
 }
