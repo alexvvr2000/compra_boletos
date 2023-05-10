@@ -2,7 +2,7 @@ drop table if exists Usuario cascade;
 drop table if exists MetodoPago cascade;
 drop table if exists Evento cascade;
 drop table if exists capacidad;
-drop table if exists compras;
+drop table if exists compra;
 drop type if exists multinacional;
 create table Usuario (
 		idUsuario serial primary key,
@@ -27,16 +27,15 @@ create table Evento (
 create type multinacional as enum ('visa','mastercard','americanExpress');
 create table capacidad (
 	idEvento integer primary key references Evento(idEvento) on delete cascade,
-	filasOcupadas json
+	filasDisponibles json
 );
 insert into evento(nombre, lugar, fecha)
 values ('Evento', 'Arena monterrey', now());
-insert into capacidad(idevento, filasocupadas)
+insert into capacidad(idevento, filasDisponibles)
 values (
 	1, 
 	'{"A": {"1":true,"2":true,"3":true,"precio": 200}, "B":{"1":false,"2":true,"3":true, "precio": 500}}'
 );
-select * from capacidad;
 create table MetodoPago (
 	idMetodoPago serial primary key,
 	idUsuario integer references Usuario(idUsuario) on delete cascade,
