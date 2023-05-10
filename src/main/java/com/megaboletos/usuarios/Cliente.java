@@ -228,7 +228,7 @@ public class Cliente extends Usuario implements ObjetoBase {
         this.conexionBase.commit();
         return resultado.getInt("idmetodopago");
     }
-    private boolean tieneMetodoPago(int idMetodoPago) throws Exception{
+    public boolean tieneMetodoPago(int idMetodoPago) throws Exception{
         PreparedStatement query = this.conexionBase.prepareStatement(
             "select exists ( select " +
                 " metodopago.idmetodopago " +

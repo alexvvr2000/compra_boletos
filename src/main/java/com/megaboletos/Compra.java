@@ -1,6 +1,8 @@
 package com.megaboletos;
 import com.megaboletos.usuarios.ClassBuilder;
 import com.megaboletos.usuarios.Cliente;
+import com.megaboletos.usuarios.Evento;
+
 import java.sql.Connection;
 import java.util.*;
 public class Compra {
@@ -11,7 +13,7 @@ public class Compra {
     private int precioFinal = 0;
     final Map<String, ArrayList<Integer>> asientosComprados = new HashMap<String, ArrayList<Integer>>();
     private Connection conexion = null;
-    private Compra(Cliente clientePorComprar, Builder nuevaCompra, int idMetodoPago) {
+    private Compra(Builder nuevaCompra) {
 
     }
     public int getIdCliente() {
@@ -37,15 +39,20 @@ public class Compra {
         private int idEvento = 0;
         private int idMetodoPago = 0;
         private int precioFinal = 0;
+        private Connection conexion = null;
         private Map<String, ArrayList<Integer>> asientos = new HashMap<String, ArrayList<Integer>>();
-        public Builder(Cliente clientePorComprar) {
+        public Builder(Connection conexion, Cliente clientePorComprar) {
+            this.conexion = conexion;
             this.clientePorComprar = clientePorComprar;
         }
-        public Builder agregarEvento(int idEvento) {
+        public Builder agregarEvento(int idEvento) throws Exception{
+            if(!Evento.existeEvento(this.clientePorComprar., idEvento)) throw new Exception("Evento no existe");
             this.idEvento = idEvento;
             return this;
         }
-        public Builder metodoPagoUsado(int idMetodoPago){
+        public Builder metodoPagoUsado(int idMetodoPago) throws Exception{
+            if(!this.clientePorComprar.tieneMetodoPago(idMetodoPago))
+                throw new Exception("Metodo de pago no existe");
             this.idMetodoPago = idMetodoPago;
             return this;
         }
@@ -54,7 +61,7 @@ public class Compra {
         }
         @Override
         public Compra crear() throws Exception{
-            return new Compra(this.clientePorComprar, this, this.idEvento);
+            return new Compra();
         }
         @Override
         public boolean camposValidos() {
