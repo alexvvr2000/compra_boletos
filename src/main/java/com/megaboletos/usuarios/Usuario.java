@@ -18,7 +18,8 @@ class Usuario {
         query.setString(1, claveAcceso);
         query.setString(2, correo);
         ResultSet resultado = query.executeQuery();
-        resultado.next();
+        boolean existeUsuario = resultado.next();
+        if (!existeUsuario) throw new Exception("Usuario no existe");
         this.correo = correo;
         this.idUsuario = resultado.getInt("idusuario");
         this.nombre = resultado.getString("nombre");
