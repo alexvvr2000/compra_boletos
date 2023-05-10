@@ -59,6 +59,7 @@ public class Evento {
         String jsonAsientos = resultado.getString("filasocupadas");
         JSONObject filaSeleccionada = new JSONObject(jsonAsientos).getJSONObject(fila);
         Map<String, Object> asientos = filaSeleccionada.toMap();
+        asientos.remove("precio");
         return Collections.unmodifiableMap(asientos);
     }
     public static boolean existeEvento(Connection conexion, int idEvento) throws Exception {
