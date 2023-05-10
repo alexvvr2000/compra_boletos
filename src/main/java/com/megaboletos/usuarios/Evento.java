@@ -49,14 +49,14 @@ public class Evento {
         resultado.next();
         return resultado.getBoolean("estacancelado");
     }
-    public Map<String, Object> asientosDisponibles(String fila) throws Exception {
+    public Map<String, Object> asientosFila(String fila) throws Exception {
         PreparedStatement query = this.conexion.prepareStatement(
-                "select filasocupadas from capacidad where idevento = ?"
+                "select filasdisponibles from capacidad where idevento = ?"
         );
         query.setInt(1, this.idEvento);
         ResultSet resultado = query.executeQuery();
         resultado.next();
-        String jsonAsientos = resultado.getString("filasocupadas");
+        String jsonAsientos = resultado.getString("filasdisponibles");
         JSONObject filaSeleccionada = new JSONObject(jsonAsientos).getJSONObject(fila);
         Map<String, Object> asientos = filaSeleccionada.toMap();
         asientos.remove("precio");
@@ -74,11 +74,11 @@ public class Evento {
         return conjunto.getBoolean("existe");
     }
     public boolean estaDisponible(String fila, int asiento) throws Exception{
-        Map<String, Object> filas = this.asientosDisponibles(fila);
+        Map<String, Object> filas = this.asientosFila(fila);
         return (boolean)filas.get(Integer.toString(asiento));
     }
     public int precioAsiento(String fila) throws Exception{
-        Map<String, Object> filas = this.asientosDisponibles(fila);
+        Map<String, Object> filas = this.asientosFila(fila);
         return (int)filas.get("precio");
     }
 }

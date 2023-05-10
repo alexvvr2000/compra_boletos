@@ -27,7 +27,7 @@ create table Evento (
 create type multinacional as enum ('visa','mastercard','americanExpress');
 create table capacidad (
 	idEvento integer primary key references Evento(idEvento) on delete cascade,
-	filasDisponibles json
+	filasDisponibles jsonb
 );
 insert into evento(nombre, lugar, fecha)
 values ('Evento', 'Arena monterrey', now());
@@ -53,8 +53,8 @@ create table compra (
 	idUsuario integer references Usuario(idUsuario) on delete cascade,
 	idEvento integer references Evento(idEvento) on delete cascade,
 	idMetodoPago integer references MetodoPago(idMetodoPago) on delete cascade,
-	asientosComprados JSON,
-	precioFinal numeric,
+	asientosComprados varchar(20)[] default array[]::varchar[],
+	precioFinal numeric default 0,
 	pagado boolean default false
 );
 insert into 

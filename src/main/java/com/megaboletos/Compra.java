@@ -6,6 +6,7 @@ import com.megaboletos.usuarios.Cliente;
 import com.megaboletos.usuarios.Evento;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.*;
 public class Compra {
     private int idCliente = 0;
@@ -15,8 +16,13 @@ public class Compra {
     private int precioFinal = 0;
     final Map<String, ArrayList<Integer>> asientosComprados = new HashMap<String, ArrayList<Integer>>();
     private Connection conexion = null;
-    private Compra(Builder nuevaCompra) {
-
+    private Compra(Builder nuevaCompra) throws Exception {
+        PreparedStatement query = nuevaCompra.conexion.prepareStatement("");
+        this.conexion = nuevaCompra.conexion;
+        this.idCliente = nuevaCompra.clientePorComprar.getIdUsuario();
+        this.idEvento = nuevaCompra.idEvento;
+        this.idMetodoPago = nuevaCompra.idMetodoPago;
+        this.precioFinal = nuevaCompra.precioFinal;
     }
     public int getIdCliente() {
         return this.idCliente;
