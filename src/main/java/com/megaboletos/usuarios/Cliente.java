@@ -158,8 +158,28 @@ public class Cliente extends Usuario implements ObjetoBase {
         conjunto.next();
         return conjunto.getBoolean("existe");
     }
-    public boolean modificarMetodoPago(int idMetodoPago, JSONObject datos) {
-        return false;
+    public boolean modificarMetodoPago(int idMetodoPago, JSONObject datos) throws Exception{
+        String[] campos = {"cuenta", "fechaVencimiento", "tipoCuenta"};
+        ArrayList<String> valorUpdate = new ArrayList<String>();
+        for(String campo: campos) {
+            if(!datos.has(campo)) continue;
+            String nuevoCampo = datos.getString(campo);
+            String campoFormateado = campo.equals("tipoCuenta")
+                    ? "%s = cast('%s' as multinacional)" : "%s = '%s'";
+            valorUpdate.add(
+                    String.format(campoFormateado, campo, nuevoCampo)
+            );
+        }
+        String[] valoresNuevos = new String[valorUpdate.size()];
+        valorUpdate.toArray(valoresNuevos);
+        String listaUpdate = String.join(",", valoresNuevos);
+        PreparedStatement query = this.conexionBase.prepareStatement(
+                String.format("update metodopago set %s where idMetodoPago= ?", listaUpdate)
+        );
+        query.setInt(1,idMetodoPago);
+        int camposAfectados = query.executeUpdate();
+        this.conexionBase.commit();
+        return camposAfectados == 1;
     }
     public boolean eliminarMetodoPago(int idMetodoPago) {
         return false;
@@ -176,5 +196,6 @@ public class Cliente extends Usuario implements ObjetoBase {
         ResultSet resultado = query.executeQuery();
         resultado.next();
         return resultado.getInt("idmetodopago");
+
     }
 }
