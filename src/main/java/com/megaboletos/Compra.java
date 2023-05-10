@@ -61,6 +61,7 @@ public class Compra {
         }
         @Override
         public Compra crear() throws Exception{
+            if(!this.camposValidos()) throw new Exception("Campos faltantes o sin formato");
             return new Compra(this);
         }
         @Override
