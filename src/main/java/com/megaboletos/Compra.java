@@ -10,7 +10,7 @@ public class Compra {
     private int idMetodoPago = 0;
     private int precioFinal = 0;
     private Connection conexion = null;
-    final Map<String, Integer> asientosComprados = new HashMap<String, Integer>();
+    final Map<String, ArrayList<Integer>> asientosComprados = new HashMap<String, ArrayList<Integer>>();
     private Compra(Cliente clientePorComprar, Builder nuevaCompra, int idMetodoPago) {
 
     }
@@ -29,14 +29,15 @@ public class Compra {
     public int getPrecioFinal() {
         return this.precioFinal;
     }
-    public Map<String, Integer> getAsientos() {
+    public Map<String, ArrayList<Integer>> getAsientos() {
         return this.asientosComprados;
     }
     public static class Builder implements ClassBuilder<Compra> {
         private Cliente clientePorComprar = null;
         private int idEvento = 0;
         private int idMetodoPago = 0;
-        private Map<String, Integer> asientos = new HashMap<String, Integer>();
+        private int precioFinal = 0;
+        private Map<String, ArrayList<Integer>> asientos = new HashMap<String, ArrayList<Integer>>();
         public Builder(Cliente clientePorComprar) {
             this.clientePorComprar = clientePorComprar;
         }
@@ -48,7 +49,7 @@ public class Compra {
             this.idMetodoPago = idMetodoPago;
             return this;
         }
-        public Builder agregarAsientos(Map<String, Integer> asientos) {
+        public Builder agregarAsiento(String fila, int asiento) {
             return this;
         }
         @Override
