@@ -184,7 +184,14 @@ public class Cliente extends Usuario implements ObjetoBase {
     }
     public boolean eliminarMetodoPago(int idMetodoPago) throws Exception {
         if(!this.tieneMetodoPago(idMetodoPago)) throw new Exception("No existe metodo pago");
-        return true;
+        PreparedStatement query = this.conexionBase.prepareStatement(
+                "delete from metodopago where idusuario = ? and idmetodopago = ?;"
+        );
+        query.setInt(1, this.idUsuario);
+        query.setInt(2, idMetodoPago);
+        int camposAfectados = query.executeUpdate();
+        conexionBase.commit();
+        return camposAfectados == 1;
     }
     public int agregarMetodoPago(String cuenta, String fechaVencimiento, String tipoCuenta) throws Exception{
         PreparedStatement query = this.conexionBase.prepareStatement(
