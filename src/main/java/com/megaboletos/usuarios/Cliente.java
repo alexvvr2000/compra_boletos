@@ -6,6 +6,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Cliente extends Usuario implements ObjetoBase {
     public static String[] tipoCuenta = {
             "visa",
@@ -158,6 +162,23 @@ public class Cliente extends Usuario implements ObjetoBase {
         conjunto.next();
         return conjunto.getBoolean("existe");
     }
+    public Map<String, String> obtenerMetodoPago(int idMetodoPago) throws Exception{
+        if (!this.tieneMetodoPago(idMetodoPago)) throw new Exception("Metodo de pago no existe");
+        PreparedStatement query = this.conexionBase.prepareStatement(
+                "select " +
+                    " cuenta, fechavencimiento, tipocuenta " +
+                " from metodopago where idmetodopago = ? and idusuario = ?;"
+        );
+        query.setInt(1, idMetodoPago);
+        query.setInt(2, this.idUsuario);
+        ResultSet resultado = query.executeQuery();
+        resultado.next();
+        Map<String, String> metodoPago = new HashMap<String, String>();
+        metodoPago.put("cuenta", resultado.getString("cuenta"));
+        metodoPago.put("fechaVencimiento", resultado.getString("fechavencimiento"));
+        metodoPago.put("tipoCuenta", resultado.getString("tipocuenta"));
+        return Collections.unmodifiableMap(metodoPago);
+    }
     public boolean modificarMetodoPago(int idMetodoPago, JSONObject datos) throws Exception{
         if(!this.tieneMetodoPago(idMetodoPago)) throw new Exception("No existe metodo pago");
         String[] campos = {"cuenta", "fechaVencimiento", "tipoCuenta"};
@@ -213,7 +234,7 @@ public class Cliente extends Usuario implements ObjetoBase {
                 " metodopago.idmetodopago " +
                 " from metodopago " +
                 " inner join usuario on metodopago.idusuario = usuario.idusuario" +
-                " where metodopago.idmetodopago = ? and usuario.idusuario = ? " +
+                " where metodopago.idmetodopago = ? and metodopago.idusuario = ? " +
            ") as existemetodo;"
         );
         query.setInt(1, idMetodoPago);
