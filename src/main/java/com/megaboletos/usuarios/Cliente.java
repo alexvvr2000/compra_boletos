@@ -246,4 +246,20 @@ public class Cliente extends Usuario implements ObjetoBase {
         resultado.next();
         return resultado.getBoolean("existemetodo");
     }
+    public boolean existeCompra(int idCompra) throws Exception{
+        PreparedStatement query = this.conexionBase.prepareStatement(
+            "select exists ( " +
+                "select " +
+                    "usuario.idUsuario " +
+                    "from usuario " +
+                    "inner join compra on compra.idusuario = usuario.idusuario " +
+                    "where usuario.idUsuario = ? and compra.idCompras = ? " +
+            ") as existemetodo;"
+        );
+        query.setInt(1, this.idUsuario);
+        query.setInt(2, idCompra);
+        ResultSet resultado = query.executeQuery();
+        resultado.next();
+        return resultado.getBoolean("existemetodo");
+    }
 }

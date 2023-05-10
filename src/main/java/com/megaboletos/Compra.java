@@ -39,6 +39,7 @@ public class Compra {
         this.pagado = false;
     }
     public Compra(Connection conexion, Cliente clienteUsado, int idCompra) throws Exception{
+        if(!clienteUsado.existeCompra(idCompra)) throw new Exception("Compra no existe en base");
         PreparedStatement query = conexion.prepareStatement(
             "select " +
                 "idcompras, idusuario, idevento, idmetodopago, " +
