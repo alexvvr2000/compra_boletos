@@ -156,9 +156,6 @@ public class Cliente extends Usuario implements ObjetoBase {
         conjunto.next();
         return conjunto.getBoolean("existe");
     }
-    public MetodoPago obtenerMetodoPago(int idMetodoPago) {
-        return null;
-    }
     public boolean modificarMetodoPago(int idMetodoPago, JSONObject datos) {
         return false;
     }
