@@ -22,7 +22,7 @@ public class Cliente extends Usuario implements ObjetoBase {
             "correo",
             "claveInicioSesion"
     };
-    private Cliente(final Builder instancia, String claveAcceso) throws Exception{
+    private Cliente(final Builder instancia) throws Exception{
         super();
         if (Cliente.existeCorreo(instancia.conexion,instancia.correo))
             throw new Exception("Ya esta correo en base");
@@ -33,7 +33,7 @@ public class Cliente extends Usuario implements ObjetoBase {
         this.correo = instancia.correo;
         PreparedStatement query = this.conexionBase.prepareStatement(
                 "insert into usuario (nombre, apellidoPaterno, apellidoMaterno, correo, claveInicioSesion, esAdmin) " +
-                        " values (?, ?, ?, ?, ?, ?);"
+                        " values (?, ?, ?, ?, ?, ?) returning idUsuario;"
         );
         query.setString(1, this.nombre);
         query.setString(2, this.apellidoPaterno);
@@ -41,7 +41,8 @@ public class Cliente extends Usuario implements ObjetoBase {
         query.setString(4, this.correo);
         query.setString(5, instancia.claveAcceso);
         query.setBoolean(6, false);
-        query.executeUpdate();
+        ResultSet resultado = query.executeQuery();
+        this.idUsuario = resultado.getInt("idUsuario");
         this.conexionBase.commit();
     }
     public Cliente(Connection connection, String correo, String claveAcceso) throws Exception {
@@ -132,7 +133,7 @@ public class Cliente extends Usuario implements ObjetoBase {
         @Override
         public Cliente crear() throws Exception{
             if(!this.camposValidos()) throw new Exception("Campos vacios o formato invalido");
-            return new Cliente(this, this.claveAcceso);
+            return new Cliente(this);
         }
         @Override
         public boolean camposValidos() {
@@ -169,10 +170,12 @@ public class Cliente extends Usuario implements ObjetoBase {
                     " cuenta, fechavencimiento, tipocuenta " +
                 " from metodopago where idmetodopago = ? and idusuario = ?;"
         );
+
         query.setInt(1, idMetodoPago);
         query.setInt(2, this.idUsuario);
         ResultSet resultado = query.executeQuery();
-        resultado.next();
+        boolean valoresEnBase = resultado.next();
+        if(!valoresEnBase) return null;
         Map<String, String> metodoPago = new HashMap<String, String>();
         metodoPago.put("cuenta", resultado.getString("cuenta"));
         metodoPago.put("fechaVencimiento", resultado.getString("fechavencimiento"));
