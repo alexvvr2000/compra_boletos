@@ -66,7 +66,15 @@ public class Compra {
         }
         @Override
         public boolean camposValidos() {
-            return false;
+            boolean idEventoAgregado = this.idEvento != 0;
+            boolean idMetodoPagoAgregado = this.idMetodoPago != 0;
+            boolean asientosValidos = !this.asientos.isEmpty();
+            boolean precioFinalCalculado = this.precioFinal != 0;
+            return
+                idEventoAgregado &&
+                idMetodoPagoAgregado &&
+                asientosValidos &&
+                precioFinalCalculado;
         }
         private boolean pagarAsientos() {
             return true;
