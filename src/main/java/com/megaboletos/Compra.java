@@ -1,4 +1,6 @@
 package com.megaboletos;
+import com.megaboletos.pagos.MetodoPago;
+import com.megaboletos.pagos.PagoVisa;
 import com.megaboletos.usuarios.ClassBuilder;
 import com.megaboletos.usuarios.Cliente;
 import com.megaboletos.usuarios.Evento;
@@ -13,7 +15,7 @@ public class Compra {
     private int precioFinal = 0;
     final Map<String, ArrayList<Integer>> asientosComprados = new HashMap<String, ArrayList<Integer>>();
     private Connection conexion = null;
-    private Compra(Builder nuevaCompra) {
+    private Compra(Builder nuevaCompra, int CVV) {
 
     }
     public int getIdCliente() {
@@ -67,10 +69,10 @@ public class Compra {
             this.precioFinal += eventoAgregado.precioAsiento(fila);
             return this;
         }
-        @Override
-        public Compra crear() throws Exception{
+        public Compra crear(int CVV) throws Exception{
             if(!this.camposValidos()) throw new Exception("Campos faltantes o sin formato");
-            return new Compra(this);
+            Map<String, String> metodoPago = this.clientePorComprar.obtenerMetodoPago(this.idMetodoPago);
+            return new Compra(this, CVV);
         }
         @Override
         public boolean camposValidos() {
