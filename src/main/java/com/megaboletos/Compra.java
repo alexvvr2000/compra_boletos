@@ -91,7 +91,6 @@ public class Compra {
         @Override
         public Compra crear() throws Exception{
             if(!this.camposValidos()) throw new Exception("Campos faltantes o sin formato");
-            Map<String, String> metodoPago = this.clientePorComprar.obtenerMetodoPago(this.idMetodoPago);
             return new Compra(this);
         }
         @Override
