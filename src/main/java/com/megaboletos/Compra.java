@@ -66,6 +66,8 @@ public class Compra {
         }
         public Builder agregarAsiento(String fila, int asiento) throws Exception{
             Evento eventoAgregado = new Evento(this.conexion, this.idEvento);
+            if(!eventoAgregado.existeAsiento(fila, asiento))
+                throw new Exception("No esta registrado " + fila + asiento + " en base");
             if(eventoAgregado.eventoCancelado()) throw new Exception("Evento cancelado");
             if(!eventoAgregado.estaDisponible(fila, asiento)) throw new Exception("Asiento tomado");
             if(!this.asientos.containsKey(fila)) {
