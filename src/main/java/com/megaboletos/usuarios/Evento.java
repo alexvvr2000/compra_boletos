@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Map;
 public class Evento {
     private String nombre = "";
@@ -118,5 +119,43 @@ public class Evento {
         ResultSet conjunto = query.executeQuery();
         conjunto.next();
         return conjunto.getBoolean("existeFila");
+    }
+    public static class EventoIterator implements Iterator<Evento> {
+        private int cantidadValores = 0;
+        private int valorActual = 0;
+        private ResultSet clavesCrudas = null;
+        private Connection conexion = null;
+        public EventoIterator(Connection conexion) throws Exception {
+            PreparedStatement query = conexion.prepareStatement(
+                    "select " +
+                    "cast(count(idEvento) as integer) as cantidad " +
+                    "from evento;"
+            );
+            ResultSet resultado = query.executeQuery();
+            resultado.next();
+            this.cantidadValores = resultado.getInt("cantidad");
+            if(this.cantidadValores == 0) throw new Exception("No hay eventos en base");
+            PreparedStatement queryMetodosPago = conexion.prepareStatement(
+                "select idEvento from evento"
+            );
+            this.clavesCrudas = queryMetodosPago.executeQuery();
+            this.conexion = conexion;
+        }
+        @Override
+        public boolean hasNext() {
+            return this.cantidadValores != this.valorActual;
+        }
+        @Override
+        public Evento next() {
+            try{
+                this.clavesCrudas.next();
+                int idActual = this.clavesCrudas.getInt("idEvento");
+                this.valorActual++;
+                return new Evento(this.conexion ,idActual);
+            } catch (Exception e) {
+                System.out.println(e.getClass().getName() + ": " + e.getMessage());
+            }
+            return null;
+        }
     }
 }
