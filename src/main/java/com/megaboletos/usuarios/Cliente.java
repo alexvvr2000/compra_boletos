@@ -166,10 +166,9 @@ public class Cliente extends Usuario implements ObjetoBase {
         if (!this.tieneMetodoPago(idMetodoPago)) throw new Exception("Metodo de pago no existe");
         PreparedStatement query = this.conexionBase.prepareStatement(
                 "select " +
-                    " cuenta, fechavencimiento, tipocuenta " +
+                    "idMetodoPago,cuenta, fechavencimiento, tipocuenta " +
                 " from metodopago where idmetodopago = ? and idusuario = ?;"
         );
-
         query.setInt(1, idMetodoPago);
         query.setInt(2, this.idUsuario);
         ResultSet resultado = query.executeQuery();
@@ -179,6 +178,7 @@ public class Cliente extends Usuario implements ObjetoBase {
         metodoPago.put("cuenta", resultado.getString("cuenta"));
         metodoPago.put("fechaVencimiento", resultado.getString("fechavencimiento"));
         metodoPago.put("tipoCuenta", resultado.getString("tipocuenta"));
+        metodoPago.put("idMetodoPago", resultado.getString("idMetodoPago"));
         return Collections.unmodifiableMap(metodoPago);
     }
     public boolean modificarMetodoPago(int idMetodoPago, JSONObject datos) throws Exception{
@@ -263,7 +263,7 @@ public class Cliente extends Usuario implements ObjetoBase {
     }
     public static class MetodosPagoIterator implements Iterator<Map<String, String>> {
         private int cantidadValores = 0;
-        private final int valorActual = 0;
+        private int valorActual = 0;
         private ResultSet clavesCrudas = null;
         private Cliente cliente = null;
         public MetodosPagoIterator(Cliente cliente) throws Exception {
@@ -288,10 +288,19 @@ public class Cliente extends Usuario implements ObjetoBase {
         }
         @Override
         public boolean hasNext() {
-            return this.cantidadValores == this.valorActual;
+            return this.cantidadValores != this.valorActual;
         }
         @Override
         public Map<String, String> next() {
+            try{
+                this.clavesCrudas.next();
+                int idActual = this.clavesCrudas.getInt("idMetodoPago");
+                Map<String, String> metodoActual = this.cliente.obtenerMetodoPago(idActual);
+                this.valorActual++;
+                return metodoActual;
+            } catch (Exception e) {
+                System.out.println(e.getClass().getName() + ": " + e.getMessage());
+            }
             return null;
         }
     }
