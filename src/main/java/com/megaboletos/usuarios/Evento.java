@@ -100,7 +100,7 @@ public class Evento {
         );
         query.setString(1, fila);
         query.setString(2, fila);
-        query.setInt(3, asiento);
+        query.setString(3, Integer.toString(asiento));
         query.setInt(4, this.idEvento);
         ResultSet conjunto = query.executeQuery();
         conjunto.next();

@@ -8,7 +8,6 @@ declare precioAsiento numeric;
 	existeEvento boolean;
 	existeCompra boolean;
 	compraPagada boolean;
-	filaActualizado JSON;
 begin
 	asientoDisponible := (
 		select
@@ -57,13 +56,6 @@ begin
 	update compra
 		set asientosComprados = asientosComprados || (fila || asiento)
 	where idCompras = idCompraRequerido;
-	filaActualizado := (
-		select
-			filasDisponibles -> fila #- array[asiento]
-			|| ('{"' || asiento || '":false}')::jsonb
-		from capacidad
-		where idEvento = idEventoRequerido
-	);
 	update capacidad
 	set filasDisponibles = 
 		jsonb_set(

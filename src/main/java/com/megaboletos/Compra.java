@@ -2,10 +2,8 @@ package com.megaboletos;
 import com.megaboletos.usuarios.ClassBuilder;
 import com.megaboletos.usuarios.Cliente;
 import com.megaboletos.usuarios.Evento;
-import java.sql.Array;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+
+import java.sql.*;
 import java.util.*;
 public class Compra {
     private int idCliente = 0;
@@ -13,45 +11,48 @@ public class Compra {
     private int idCompra = 0;
     private int idMetodoPago = 0;
     private int precioFinal = 0;
+    private boolean pagado = false;
     List<String> asientos = new ArrayList<String>();
     private Connection conexion = null;
     private Compra(Builder nuevaCompra) throws Exception {
         PreparedStatement query = nuevaCompra.conexion.prepareStatement(
             "insert into " +
             "compra (idusuario, idevento, idmetodopago) " +
-            "values (?,?,?) returning idCompras;"
+            "values (?,?,?) returning idcompras;"
         );
         query.setInt(1, nuevaCompra.clientePorComprar.getIdUsuario());
         query.setInt(2, nuevaCompra.idEvento);
         query.setInt(3, nuevaCompra.idMetodoPago);
         ResultSet resultado = query.executeQuery();
         resultado.next();
-        nuevaCompra.conexion.commit();
         this.conexion = nuevaCompra.conexion;
+        this.idCompra = resultado.getInt("idcompras");
         this.idCliente = nuevaCompra.clientePorComprar.getIdUsuario();
         this.idEvento = nuevaCompra.idEvento;
         this.idMetodoPago = nuevaCompra.idMetodoPago;
         this.precioFinal = nuevaCompra.precioFinal;
-        this.idCliente = resultado.getInt("idCompras");
+        this.pagado = false;
+        nuevaCompra.conexion.commit();
     }
     public Compra(Connection conexion, Cliente clienteUsado, int idCompra) throws Exception{
         if(!clienteUsado.existeCompra(idCompra)) throw new Exception("Compra no existe en base");
         PreparedStatement query = conexion.prepareStatement(
             "select " +
-                "idcompras, idusuario, idevento, idmetodopago, " +
-                "asientoscomprados, preciofinal " +
+                "idusuario, idevento, idmetodopago, " +
+                "asientoscomprados, preciofinal, pagado " +
             "from compra " +
             "where idcompras = ?;"
         );
         query.setInt(1, idCompra);
         ResultSet resultado = query.executeQuery();
         resultado.next();
-        this.idCompra = resultado.getInt("idcompras");
+        this.idCompra = idCompra;
         this.idCliente = clienteUsado.getIdUsuario();
         this.idEvento = resultado.getInt("idevento");
         this.idMetodoPago = resultado.getInt("idmetodopago");
         Array arregloValores = resultado.getArray("asientoscomprados");
         this.precioFinal = resultado.getInt("preciofinal");
+        this.pagado = resultado.getBoolean("pagado");
         boolean errorAgregando = Collections.addAll(
                 this.asientos, (String[])arregloValores.getArray()
         );
@@ -74,6 +75,9 @@ public class Compra {
     }
     public List<String> getAsientos() {
         return Collections.unmodifiableList(this.asientos);
+    }
+    public boolean estaPagado() {
+        return this.pagado;
     }
     public static class Builder implements ClassBuilder<Compra> {
         private Cliente clientePorComprar;
@@ -114,10 +118,50 @@ public class Compra {
     public boolean pagar(int CVV) throws Exception{
         return true;
     }
-    public static boolean estaPagado(Cliente cliente, int idCompra) throws Exception{
-        return true;
-    }
     public boolean agregarAsiento(String fila, int asiento) throws Exception{
-        return true;
+        if(this.pagado) throw new Exception("Pases pagados crea una nueva compra");
+        Evento eventoRequerido = new Evento(this.conexion, this.idEvento);
+        if(eventoRequerido.eventoCancelado())
+            throw new Exception("Evento cancelado");
+        if(!eventoRequerido.existeAsiento(fila, asiento))
+            throw new Exception("Asientos nuevos invalidos y no existen en base");
+        if(!eventoRequerido.estaDisponible(fila, asiento))
+            throw new Exception("Asiento ocupado seleccione otro");
+        PreparedStatement asientoABase = this.conexion.prepareStatement(
+            String.format(
+                "update capacidad " +
+                "set filasDisponibles = " +
+                "jsonb_set( " +
+                "filasDisponibles, " +
+                "array['%s'], " +
+                "filasDisponibles -> '%s' #- array['%d'] || ('{\"%d\":false}')::jsonb) " +
+                "where idEvento = %d;"
+                , fila, fila, asiento, asiento, this.idEvento
+            )
+        );
+        boolean asientosAfectados = asientoABase.executeUpdate() == 1;
+        this.conexion.commit();
+        PreparedStatement agregarALista = this.conexion.prepareStatement(
+            "update compra " +
+            "set asientosComprados = array_append(asientosComprados, ?) " +
+            "where idCompras = ?;"
+        );
+        final String nuevoAsiento = String.format("%s%d", fila, asiento);
+        agregarALista.setString(1, nuevoAsiento);
+        agregarALista.setInt(2, this.idCompra);
+        boolean camposAfectados = agregarALista.executeUpdate() == 1;
+        this.conexion.commit();
+        Integer precioAsiento = new Evento(this.conexion, this.idEvento).precioAsiento(fila);
+        this.precioFinal += precioAsiento;
+        PreparedStatement actualizarPrecio = this.conexion.prepareStatement(
+            "update compra " +
+            "set preciofinal = ? " +
+            "where idCompras = ?;"
+        );
+        actualizarPrecio.setInt(1, this.precioFinal);
+        actualizarPrecio.setInt(2, this.idCompra);
+        boolean precioCambiado = actualizarPrecio.executeUpdate() == 1;
+        this.conexion.commit();
+        return asientosAfectados && camposAfectados && precioCambiado;
     }
 }
