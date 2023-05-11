@@ -53,10 +53,7 @@ public class Compra {
         Array arregloValores = resultado.getArray("asientoscomprados");
         this.precioFinal = resultado.getInt("preciofinal");
         this.pagado = resultado.getBoolean("pagado");
-        boolean errorAgregando = Collections.addAll(
-                this.asientos, (String[])arregloValores.getArray()
-        );
-        if(errorAgregando) throw new Exception("No se pudo obtener boletos comprados de base");
+        Collections.addAll(this.asientos, (String[])arregloValores.getArray());
     }
     public int getIdCliente() {
         return this.idCliente;
