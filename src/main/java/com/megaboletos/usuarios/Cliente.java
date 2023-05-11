@@ -261,26 +261,30 @@ public class Cliente extends Usuario implements ObjetoBase {
         resultado.next();
         return resultado.getBoolean("existemetodo");
     }
-    public static class ClienteIterator implements Iterator<Map<String, String>> {
+    public static class MetodosPagoIterator implements Iterator<Map<String, String>> {
         private int cantidadValores = 0;
-        private int valorActual = 0;
-        private ResultSet clavesCrudas;
-        public ClienteIterator(Connection conexion) throws Exception {
-            PreparedStatement query = conexion.prepareStatement(
+        private final int valorActual = 0;
+        private ResultSet clavesCrudas = null;
+        private Cliente cliente = null;
+        public MetodosPagoIterator(Cliente cliente) throws Exception {
+            PreparedStatement query = cliente.conexionBase.prepareStatement(
                 "select " +
-                "cast(count(idUsuario) as integer) as cantidad " +
-                "from usuario where esAdmin = false;"
+                "cast(count(idMetodoPago) as integer) as cantidad " +
+                "from metodopago where idUsuario = ?;"
             );
+            query.setInt(1, cliente.idUsuario);
             ResultSet resultado = query.executeQuery();
             resultado.next();
             this.cantidadValores = resultado.getInt("cantidad");
             if(this.cantidadValores == 0) throw new Exception("No hay clientes en base");
-            PreparedStatement claves = conexion.prepareStatement(
+            PreparedStatement queryMetodosPago = cliente.conexionBase.prepareStatement(
                 "select " +
-                "idUsuario " +
-                "from usuario where esAdmin = false;"
+                "idMetodoPago " +
+                "from metodopago where idUsuario = ?;"
             );
-            this.clavesCrudas = claves.executeQuery();
+            queryMetodosPago.setInt(1, cliente.idUsuario);
+            this.clavesCrudas = queryMetodosPago.executeQuery();
+            this.cliente = cliente;
         }
         @Override
         public boolean hasNext() {
