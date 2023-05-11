@@ -166,7 +166,7 @@ public class Cliente extends Usuario implements ObjetoBase {
         if (!this.tieneMetodoPago(idMetodoPago)) throw new Exception("Metodo de pago no existe");
         PreparedStatement query = this.conexionBase.prepareStatement(
                 "select " +
-                    "idMetodoPago,cuenta, fechavencimiento, tipocuenta " +
+                    "idUsuario, idMetodoPago,cuenta, fechavencimiento, tipocuenta " +
                 " from metodopago where idmetodopago = ? and idusuario = ?;"
         );
         query.setInt(1, idMetodoPago);
@@ -179,6 +179,7 @@ public class Cliente extends Usuario implements ObjetoBase {
         metodoPago.put("fechaVencimiento", resultado.getString("fechavencimiento"));
         metodoPago.put("tipoCuenta", resultado.getString("tipocuenta"));
         metodoPago.put("idMetodoPago", resultado.getString("idMetodoPago"));
+        metodoPago.put("idUsuario", resultado.getString("idUsuario"));
         return Collections.unmodifiableMap(metodoPago);
     }
     public boolean modificarMetodoPago(int idMetodoPago, JSONObject datos) throws Exception{
