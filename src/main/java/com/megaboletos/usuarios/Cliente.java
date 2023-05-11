@@ -5,10 +5,9 @@ import org.json.JSONObject;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.sql.Statement;
+import java.util.*;
+
 public class Cliente extends Usuario implements ObjetoBase {
     public static String[] tipoCuenta = {
             "visa",
@@ -261,5 +260,35 @@ public class Cliente extends Usuario implements ObjetoBase {
         ResultSet resultado = query.executeQuery();
         resultado.next();
         return resultado.getBoolean("existemetodo");
+    }
+    public static class ClienteIterator implements Iterator<Map<String, String>> {
+        private int cantidadValores = 0;
+        private int valorActual = 0;
+        private ResultSet clavesCrudas;
+        public ClienteIterator(Connection conexion) throws Exception {
+            PreparedStatement query = conexion.prepareStatement(
+                "select " +
+                "cast(count(idUsuario) as integer) as cantidad " +
+                "from usuario where esAdmin = false;"
+            );
+            ResultSet resultado = query.executeQuery();
+            resultado.next();
+            this.cantidadValores = resultado.getInt("cantidad");
+            if(this.cantidadValores == 0) throw new Exception("No hay clientes en base");
+            PreparedStatement claves = conexion.prepareStatement(
+                "select " +
+                "idUsuario " +
+                "from usuario where esAdmin = false;"
+            );
+            this.clavesCrudas = claves.executeQuery();
+        }
+        @Override
+        public boolean hasNext() {
+            return this.cantidadValores == this.valorActual;
+        }
+        @Override
+        public Map<String, String> next() {
+            return null;
+        }
     }
 }
