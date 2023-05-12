@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Connection conexion = null;
+        int opcionSeleccionada = 0;
         try {
             Class.forName("org.postgresql.Driver");
             conexion = DriverManager.getConnection(
@@ -26,7 +27,7 @@ public class Main {
                             "Introduce un numero: "
             );
             Scanner entrada = new Scanner(System.in);
-            int opcionSeleccionada = entrada.nextInt();
+            opcionSeleccionada = entrada.nextInt();
             if (opcionSeleccionada == 3) break;
             Cliente usuario = null;
             try {
@@ -40,11 +41,12 @@ public class Main {
                     default:
                         System.out.println(
                             "Valor introducido invalido"
-                    );
-                    break;
+                        );
+                        break;
                 }
             } catch (Exception e) {
                 System.out.println(e.getClass().getName() + ": " + e.getMessage());
+                continue;
             }
         } while (true);
     }
