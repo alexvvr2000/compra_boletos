@@ -262,21 +262,24 @@ public class Cliente extends Usuario implements ObjetoBase {
         resultado.next();
         return resultado.getBoolean("existemetodo");
     }
+    public Integer cantidadMetodosPago() throws Exception{
+        PreparedStatement query = this.conexionBase.prepareStatement(
+                "select " +
+                        "cast(count(idMetodoPago) as integer) as cantidad " +
+                        "from metodopago where idUsuario = ?;"
+        );
+        query.setInt(1, this.idUsuario);
+        ResultSet resultado = query.executeQuery();
+        resultado.next();
+        return resultado.getInt("cantidad");
+    }
     public static class MetodosPagoIterator implements Iterator<Map<String, String>> {
         private int cantidadValores = 0;
         private int valorActual = 0;
         private ResultSet clavesCrudas = null;
         private Cliente cliente = null;
         public MetodosPagoIterator(Cliente cliente) throws Exception {
-            PreparedStatement query = cliente.conexionBase.prepareStatement(
-                "select " +
-                "cast(count(idMetodoPago) as integer) as cantidad " +
-                "from metodopago where idUsuario = ?;"
-            );
-            query.setInt(1, cliente.idUsuario);
-            ResultSet resultado = query.executeQuery();
-            resultado.next();
-            this.cantidadValores = resultado.getInt("cantidad");
+            this.cantidadValores = cliente.cantidadMetodosPago();
             if(this.cantidadValores == 0) throw new Exception("No hay clientes en base");
             PreparedStatement queryMetodosPago = cliente.conexionBase.prepareStatement(
                 "select " +
