@@ -4,27 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Scanner;
 public class Main {
-    private static Cliente nuevaSesion(Scanner entrada, Connection conexion) throws Exception{
-        System.out.print("Introduce un correo: ");
-        final String correo = entrada.next();
-        System.out.print("Introduce la contraseña");
-        final String clave = entrada.next();
-        return new Cliente(conexion, correo, clave);
-    }
-    private static Cliente Registrarse(Scanner entrada, Connection conexion) throws Exception{
-        Cliente.Builder nuevoCliente = new Cliente.Builder(conexion);
-        System.out.print("Introduce tu nombre: ");
-        nuevoCliente.setNombre(entrada.next());
-        System.out.print("Introduce tu apellido paterno");
-        nuevoCliente.setApellidoMaterno(entrada.next());
-        System.out.print("Introduce tu apellido materno");
-        nuevoCliente.setApellidoPaterno(entrada.next());
-        System.out.print("Introduce un correo: ");
-        nuevoCliente.setCorreo(entrada.next());
-        System.out.print("Introduce la contraseña");
-        nuevoCliente.setClaveAcceso(entrada.next());
-        return nuevoCliente.crear();
-    }
     public static void main(String[] args) {
         Connection conexion = null;
         try {
@@ -68,5 +47,26 @@ public class Main {
                 System.out.println(e.getClass().getName() + ": " + e.getMessage());
             }
         } while (true);
+    }
+    private static Cliente nuevaSesion(Scanner entrada, Connection conexion) throws Exception{
+        System.out.print("Introduce un correo: ");
+        final String correo = entrada.next();
+        System.out.print("Introduce la contraseña");
+        final String clave = entrada.next();
+        return new Cliente(conexion, correo, clave);
+    }
+    private static Cliente Registrarse(Scanner entrada, Connection conexion) throws Exception{
+        Cliente.Builder nuevoCliente = new Cliente.Builder(conexion);
+        System.out.print("Introduce tu nombre: ");
+        nuevoCliente.setNombre(entrada.next());
+        System.out.print("Introduce tu apellido paterno");
+        nuevoCliente.setApellidoMaterno(entrada.next());
+        System.out.print("Introduce tu apellido materno");
+        nuevoCliente.setApellidoPaterno(entrada.next());
+        System.out.print("Introduce un correo: ");
+        nuevoCliente.setCorreo(entrada.next());
+        System.out.print("Introduce la contraseña");
+        nuevoCliente.setClaveAcceso(entrada.next());
+        return nuevoCliente.crear();
     }
 }
