@@ -11,8 +11,19 @@ public class Main {
         final String clave = entrada.next();
         return new Cliente(conexion, correo, clave);
     }
-    private static Cliente Registrarse(){
-        return null;
+    private static Cliente Registrarse(Scanner entrada, Connection conexion) throws Exception{
+        Cliente.Builder nuevoCliente = new Cliente.Builder(conexion);
+        System.out.print("Introduce tu nombre: ");
+        nuevoCliente.setNombre(entrada.next());
+        System.out.print("Introduce tu apellido paterno");
+        nuevoCliente.setApellidoMaterno(entrada.next());
+        System.out.print("Introduce tu apellido materno");
+        nuevoCliente.setApellidoPaterno(entrada.next());
+        System.out.print("Introduce un correo: ");
+        nuevoCliente.setCorreo(entrada.next());
+        System.out.print("Introduce la contraseña");
+        nuevoCliente.setClaveAcceso(entrada.next());
+        return nuevoCliente.crear();
     }
     public static void main(String[] args) {
         Connection conexion = null;
@@ -45,7 +56,7 @@ public class Main {
                         usuario = Main.nuevaSesion(entrada, conexion);
                         break;
                     case 2:
-                        usuario = Main.Registrarse();
+                        usuario = Main.Registrarse(entrada, conexion);
                         break;
                     default:
                         System.out.println(

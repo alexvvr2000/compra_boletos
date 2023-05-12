@@ -40,6 +40,7 @@ public class Cliente extends Usuario implements ObjetoBase {
         query.setString(5, instancia.claveAcceso);
         query.setBoolean(6, false);
         ResultSet resultado = query.executeQuery();
+        resultado.next();
         this.idUsuario = resultado.getInt("idUsuario");
         this.conexionBase.commit();
     }
