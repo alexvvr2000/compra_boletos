@@ -45,12 +45,10 @@ public class Cliente extends Usuario implements ObjetoBase {
     }
     public Cliente(Connection connection, String correo, String claveAcceso) throws Exception {
         super(connection, correo, claveAcceso);
-        if(Administrador.esAdmin( this.conexionBase, this.idUsuario)) {
-            throw new Exception("Es admin");
-        }
     }
     @Override
     public boolean actualizarDatos(JSONObject datos) throws Exception {
+        if(this.sesionCerrada) throw new Exception("Sesion cerrada vuelva a abrirla");
         ArrayList<String> campoBase = new ArrayList<String>();
         for(String campo: this.campos) {
             if(!datos.has(campo)) continue;
@@ -91,7 +89,7 @@ public class Cliente extends Usuario implements ObjetoBase {
         PreparedStatement query = this.conexionBase.prepareStatement(
                 "delete from usuario where idusuario = ?;"
         );
-        query.setInt(1, this.idUsuario);
+        query.setInt(1, this.getIdUsuario());
         int camposAfectados = query.executeUpdate();
         conexionBase.commit();
         this.sesionCerrada = true;
@@ -211,7 +209,7 @@ public class Cliente extends Usuario implements ObjetoBase {
         PreparedStatement query = this.conexionBase.prepareStatement(
                 "delete from metodopago where idusuario = ? and idmetodopago = ?;"
         );
-        query.setInt(1, this.idUsuario);
+        query.setInt(1, this.getIdUsuario());
         query.setInt(2, idMetodoPago);
         int camposAfectados = query.executeUpdate();
         conexionBase.commit();
@@ -222,7 +220,7 @@ public class Cliente extends Usuario implements ObjetoBase {
                 "insert into MetodoPago (idUsuario, cuenta, fechaVencimiento, tipoCuenta)" +
                 " values(?, ?, ?, cast(? as multinacional)) returning idmetodopago;"
         );
-        query.setInt(1, this.idUsuario);
+        query.setInt(1, this.getIdUsuario());
         query.setString(2, cuenta);
         query.setString(3, fechaVencimiento);
         query.setString(4, tipoCuenta);
@@ -241,7 +239,7 @@ public class Cliente extends Usuario implements ObjetoBase {
            ") as existemetodo;"
         );
         query.setInt(1, idMetodoPago);
-        query.setInt(2, this.idUsuario);
+        query.setInt(2, this.getIdUsuario());
         ResultSet resultado = query.executeQuery();
         resultado.next();
         return resultado.getBoolean("existemetodo");
@@ -256,7 +254,7 @@ public class Cliente extends Usuario implements ObjetoBase {
                     "where usuario.idUsuario = ? and compra.idCompras = ? " +
             ") as existemetodo;"
         );
-        query.setInt(1, this.idUsuario);
+        query.setInt(1, this.getIdUsuario());
         query.setInt(2, idCompra);
         ResultSet resultado = query.executeQuery();
         resultado.next();
@@ -268,7 +266,7 @@ public class Cliente extends Usuario implements ObjetoBase {
                         "cast(count(idMetodoPago) as integer) as cantidad " +
                         "from metodopago where idUsuario = ?;"
         );
-        query.setInt(1, this.idUsuario);
+        query.setInt(1, this.getIdUsuario());
         ResultSet resultado = query.executeQuery();
         resultado.next();
         return resultado.getInt("cantidad");
@@ -297,7 +295,7 @@ public class Cliente extends Usuario implements ObjetoBase {
                 "idMetodoPago " +
                 "from metodopago where idUsuario = ?;"
             );
-            queryMetodosPago.setInt(1, cliente.idUsuario);
+            queryMetodosPago.setInt(1, cliente.getIdUsuario());
             this.clavesCrudas = queryMetodosPago.executeQuery();
             this.cliente = cliente;
         }
