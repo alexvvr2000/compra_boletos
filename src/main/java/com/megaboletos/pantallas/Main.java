@@ -10,7 +10,7 @@ public class Main {
     }
     public static void main(String[] args) {
         do {
-            System.out.println(
+            System.out.print(
                     "******** BIENVENIDO A MEGABOLETOS ****** \n" +
                             "\t 1. Iniciar sesion \n" +
                             "\t 2. Registrarse \n" +
@@ -20,8 +20,20 @@ public class Main {
             Scanner entrada = new Scanner(System.in);
             int opcionSeleccionada = entrada.nextInt();
             if (opcionSeleccionada == 3) break;
-            Cliente usuario = opcionSeleccionada == 1 ?
-                    Main.nuevaSesion() : Main.Registrarse();
+            Cliente usuario = null;
+            switch (opcionSeleccionada) {
+                case 1:
+                    usuario = Main.nuevaSesion();
+                    break;
+                case 2:
+                    usuario = Main.Registrarse();
+                    break;
+                default:
+                    System.out.println(
+                            "Valor introducido invalido"
+                    );
+                    break;
+            }
         } while (true);
     }
 }
