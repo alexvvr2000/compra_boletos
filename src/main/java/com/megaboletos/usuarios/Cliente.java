@@ -273,6 +273,17 @@ public class Cliente extends Usuario implements ObjetoBase {
         resultado.next();
         return resultado.getInt("cantidad");
     }
+    public Integer cantidadCompras() throws Exception {
+        PreparedStatement query = this.conexionBase.prepareStatement(
+                "select " +
+                        "cast(count(idCompras) as integer) as cantidad " +
+                        "from compra where idUsuario = ?;"
+        );
+        query.setInt(1, this.getIdUsuario());
+        ResultSet resultado = query.executeQuery();
+        resultado.next();
+        return resultado.getInt("cantidad");
+    }
     public static class MetodosPagoIterator implements Iterator<Map<String, String>> {
         private int cantidadValores = 0;
         private int valorActual = 0;

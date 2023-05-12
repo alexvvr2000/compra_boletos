@@ -168,15 +168,7 @@ public class Compra {
         private Cliente cliente = null;
         private Connection conexion = null;
         public ComprasIterator(Connection conexion, Cliente cliente) throws Exception {
-            PreparedStatement query = conexion.prepareStatement(
-                "select " +
-                "cast(count(idCompras) as integer) as cantidad " +
-                "from compra where idUsuario = ?;"
-            );
-            query.setInt(1, cliente.getIdUsuario());
-            ResultSet resultado = query.executeQuery();
-            resultado.next();
-            this.cantidadValores = resultado.getInt("cantidad");
+            this.cantidadValores = cliente.cantidadCompras();
             if(this.cantidadValores == 0) throw new Exception("No hay clientes en base");
             PreparedStatement queryMetodosPago = conexion.prepareStatement(
                 "select " +
