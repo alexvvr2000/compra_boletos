@@ -22,13 +22,16 @@ public class PantallaOpciones {
                 opcionSeleccionada = entrada.nextInt();
                 switch (opcionSeleccionada) {
                     case 1:
+                        PantallaOpciones.metodoPago(entrada, cliente);
                         break;
                     case 2:
+                        PantallaOpciones.compras(entrada, cliente);
                         break;
                     case 3:
+                        PantallaOpciones.eventos(entrada);
                         break;
                     case 4:
-                        break;
+                        continue;
                     default:
                         System.out.println(
                                 "Valor introducido invalido"
@@ -39,5 +42,14 @@ public class PantallaOpciones {
                 System.out.println(e.getClass().getName() + ": " + e.getMessage());
             }
         } while (opcionSeleccionada == 4);
+    }
+    private static void metodoPago(Scanner entrada, Cliente cliente) throws Exception{
+
+    }
+    private static void compras(Scanner entrada, Cliente cliente) throws Exception{
+
+    }
+    private static void eventos(Scanner entrada) throws Exception{
+
     }
 }
