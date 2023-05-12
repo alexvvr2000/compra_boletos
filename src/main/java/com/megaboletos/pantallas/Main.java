@@ -48,6 +48,7 @@ public class Main {
                 System.out.println(e.getClass().getName() + ": " + e.getMessage());
                 continue;
             }
+            PantallaOpciones.opciones(usuario);
         } while (true);
     }
     private static Cliente nuevaSesion(Scanner entrada, Connection conexion) throws Exception{
